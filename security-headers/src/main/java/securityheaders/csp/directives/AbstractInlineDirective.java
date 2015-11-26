@@ -77,7 +77,7 @@ public abstract class AbstractInlineDirective extends AbstractSrcDirective {
 				}
 			}
 			if (!valid) {
-				report.addReport(this, "Hash algorithm " + val + " not allowed");
+				report.addError(this, "Hash algorithm " + val + " not allowed");
 			}
 		}
 	}

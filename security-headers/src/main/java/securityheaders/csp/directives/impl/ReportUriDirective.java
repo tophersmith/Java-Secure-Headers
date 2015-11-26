@@ -26,7 +26,7 @@ public class ReportUriDirective extends AbstractCSPDirective {
 			try {
 				new URI(val);
 			} catch (URISyntaxException e) {
-				report.addReport(this, "Value " + val + " could not be parsed into a URI");
+				report.addError(this, "Value " + val + " could not be parsed into a URI");
 			}
 		}
 	}

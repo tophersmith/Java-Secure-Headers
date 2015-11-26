@@ -22,7 +22,7 @@ public class PluginTypesDirective extends AbstractCSPDirective {
 			String val = this.directiveValues.get(i);
 			String[] split = val.split("/");
 			if (split.length != 2 || split[0].trim().length() == 0 || split[1].trim().length() == 0) {
-				report.addReport(this,
+				report.addError(this,
 						"Media type: " + val + " is not valid. It must contain a value, a slash, and another value");
 			}
 		}

@@ -8,27 +8,44 @@ import securityheaders.csp.directives.AbstractCSPDirective;
 
 public class CSPValidationReport {
 
-	private final List<String> reportInformation;
+	private final List<String> errors;
+	private final List<String> warnings;
 
 	CSPValidationReport() {
-		this.reportInformation = new ArrayList<String>();
+		this.errors = new ArrayList<String>();
+		this.warnings = new ArrayList<String>();
 	}
 
-	public boolean isEmpty() {
-		return this.reportInformation.isEmpty();
+	public boolean isWarningsEmpty() {
+		return this.warnings.isEmpty();
+	}
+	
+	public boolean isErrorsEmpty() {
+		return this.errors.isEmpty();
 	}
 
-	public void addReport(AbstractCSPDirective directive, String report) {
+	public void addWarning(AbstractCSPDirective directive, String report) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(directive.getDirectiveName()).append(" reports a validation failure: ").append(report);
-		this.reportInformation.add(sb.toString());
+		sb.append(directive.getDirectiveName()).append(" reports a validation warning: ").append(report);
+		this.warnings.add(sb.toString());
 	}
 
-	public List<String> getReports() {
-		return Collections.unmodifiableList(this.reportInformation);
+	public void addError(AbstractCSPDirective directive, String report) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(directive.getDirectiveName()).append(" reports a validation error: ").append(report);
+		this.errors.add(sb.toString());
+	}
+	
+	public List<String> getWarningReports() {
+		return Collections.unmodifiableList(this.warnings);
+	}
+	
+	public List<String> getErrorReports() {
+		return Collections.unmodifiableList(this.errors);
 	}
 
 	public void reset() {
-		this.reportInformation.clear();
+		this.errors.clear();
+		this.warnings.clear();
 	}
 }

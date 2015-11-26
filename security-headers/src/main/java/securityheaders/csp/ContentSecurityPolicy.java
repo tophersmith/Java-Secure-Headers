@@ -64,12 +64,12 @@ public class ContentSecurityPolicy {
 			AbstractCSPDirective directive = this.directiveMap.get(key);
 			directive.validateAndReport(this.validationReport);
 		}
-		return this.validationReport.isEmpty();
+		return this.validationReport.isErrorsEmpty();
 	}
 
 	// can return empty list
 	public List<String> getValidationReports() {
-		return this.validationReport.getReports();
+		return this.validationReport.getErrorReports();
 	}
 
 	// return a string of the policy after removing invalid pieces

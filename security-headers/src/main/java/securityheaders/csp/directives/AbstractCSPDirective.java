@@ -1,6 +1,7 @@
 package securityheaders.csp.directives;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,7 +62,7 @@ public abstract class AbstractCSPDirective {
 
 		for (int i = 0; i < AbstractCSPDirective.ILLEGAL_SRC_CHARS.length; i++) {
 			if (test.contains(AbstractCSPDirective.ILLEGAL_SRC_CHARS[i])) {
-				report.addReport(this, "Source value " + val + " contains an illegal character: "
+				report.addError(this, "Source value " + val + " contains an illegal character: "
 						+ AbstractCSPDirective.ILLEGAL_SRC_CHARS[i]);
 				return;
 			}
@@ -69,7 +70,7 @@ public abstract class AbstractCSPDirective {
 
 		if (!test.equals(AbstractCSPDirective.SRC_KEY_SELF) && !test.equals(AbstractCSPDirective.SRC_KEY_NONE)
 				&& !isValidKeyword(test) && !isSchemeSource(test) && !isHostSource(test)) {
-			report.addReport(this, "Source value " + val + " could not be validated");
+			report.addError(this, "Source value " + val + " could not be validated");
 		}
 	}
 
@@ -107,8 +108,15 @@ public abstract class AbstractCSPDirective {
 		this.directiveValues.addAll(deduped);
 	}
 
+	//Scan provided directive, if this directive contains a value that matches in the provided, remove the value from this one
 	public void removeDuplicatesOf(AbstractCSPDirective other) {
-		// TODO
+		Iterator<String> thisIt = this.directiveValues.iterator();
+		while(thisIt.hasNext()){
+			String value = thisIt.next();
+			if(other.directiveValues.contains(value)){
+				thisIt.remove();
+			}
+		}
 	}
 
 	public abstract void validateAndReport(CSPValidationReport report);
