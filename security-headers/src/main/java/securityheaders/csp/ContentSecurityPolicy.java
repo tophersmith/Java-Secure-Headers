@@ -19,16 +19,20 @@ public class ContentSecurityPolicy {
 
 	private final Map<String, AbstractCSPDirective> directiveMap;
 	private final CSPValidationReport validationReport;
-
+	private final PolicyLevel level;
+	
 	private static final String[] RELY_ON_DEFAULT = { ChildSrcDirective.NAME, ConnectSrcDirective.NAME,
 			FontSrcDirective.NAME, ImgSrcDirective.NAME, MediaSrcDirective.NAME, ObjectSrcDirective.NAME,
 			ScriptSrcDirective.NAME, StyleSrcDirective.NAME };
 
+	public ContentSecurityPolicy(){
+		this(PolicyLevel.CSP2);
+	}
 	
-	
-	public ContentSecurityPolicy() {
+	public ContentSecurityPolicy(PolicyLevel level) {
 		this.directiveMap = new HashMap<String, AbstractCSPDirective>();
 		this.validationReport = new CSPValidationReport();
+		this.level = level;
 	}
 
 	// add to the map
@@ -66,6 +70,12 @@ public class ContentSecurityPolicy {
 		for (String key : this.directiveMap.keySet()) {
 			AbstractCSPDirective directive = this.directiveMap.get(key);
 			directive.validateAndReport(this.validationReport);
+			if(!this.level.isAllowed(key)){
+				this.validationReport.addWarning(directive, this.level.name() + " does not define directive " + key);			
+			}
+			if(!this.level.isDeprecated(key)){
+				this.validationReport.addWarning(directive, this.level.name() + " has deprecated directive " + key);
+			}
 		}
 		return this.validationReport.isErrorsEmpty();
 	}
