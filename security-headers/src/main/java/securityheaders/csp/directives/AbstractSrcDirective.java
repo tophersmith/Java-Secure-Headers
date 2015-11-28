@@ -12,10 +12,10 @@ public abstract class AbstractSrcDirective extends AbstractCSPDirective {
 	public void validateAndReport(CSPValidationReport report) {
 		if(this.directiveValues.size() > 1){
 			if(this.directiveValues.contains(SRC_KEY_NONE)){
-				report.addError(this, "Cannot contain multiple directive values where one is 'none'");
+				report.addWarning(this, "Should not contain multiple directive values where one is 'none'");
 			}
 			if(this.directiveValues.contains(SRC_WILDCARD)){
-				report.addError(this, "Cannot contain multiple directive values where one is a wildcard");
+				report.addWarning(this, "Should not contain multiple directive values where one is a wildcard");
 			}
 		}
 		for (int i = 0; i < this.directiveValues.size(); i++) {

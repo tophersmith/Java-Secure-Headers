@@ -61,11 +61,9 @@ public abstract class AbstractCSPDirective {
 
 	protected void validateSourceListValue(String val, CSPValidationReport report) {
 		String test = val.trim().toLowerCase();
-
 		for (int i = 0; i < AbstractCSPDirective.ILLEGAL_SRC_CHARS.length; i++) {
 			if (test.contains(AbstractCSPDirective.ILLEGAL_SRC_CHARS[i])) {
-				report.addError(this, "Source value " + val + " contains an illegal character: "
-						+ AbstractCSPDirective.ILLEGAL_SRC_CHARS[i]);
+				report.addError(this, "Source value " + val + " contains an illegal character: " + AbstractCSPDirective.ILLEGAL_SRC_CHARS[i]);
 				return;
 			}
 		}
