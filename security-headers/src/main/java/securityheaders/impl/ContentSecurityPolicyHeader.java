@@ -67,7 +67,7 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 		if (!this.csp.isValid()) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("ContentSecurityPolicyHeader is invalid:").append(ContentSecurityPolicyHeader.LINE_SEPERATOR);
-			List<String> reports = this.csp.getValidationReports();
+			List<String> reports = this.csp.getValidationErrorReports();
 			for (int i = 0; i < reports.size(); i++) {
 				sb.append(reports.get(i)).append(ContentSecurityPolicyHeader.LINE_SEPERATOR);
 			}

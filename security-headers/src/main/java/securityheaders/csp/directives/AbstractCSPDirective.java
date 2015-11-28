@@ -1,6 +1,7 @@
 package securityheaders.csp.directives;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ public abstract class AbstractCSPDirective {
 	protected final List<String> directiveValues;
 	protected final String name;
 
+	public static final String SRC_WILDCARD = "*";
 	public static final String SRC_KEY_NONE = "'none'";
 	public static final String SRC_KEY_SELF = "'self'";
 	public static final String SRC_UNSAFE_INLINE = "'unsafe-inline'";
@@ -23,23 +25,23 @@ public abstract class AbstractCSPDirective {
 
 	// 1 letter plus optional letters, digits, +, -, or .
 	private static final String SCHEME_PART = "\\w{1}(?:[\\w\\d\\+\\-\\.])*";
-	// * OR Optional *. plus 1 or more letters/digits plus optional . plus 1 or
-	// more letters/digits
+	
+	// * OR Optional *. plus 1 or more letters/digits plus optional . plus 1 or more letters/digits
 	private static final String HOST_PART = "(?:[*])|(?:(?:\\*\\.)?[\\w\\d]{1}(?:[\\.]?[\\d\\w])+)";
+	
 	// : followed by either 1 or more digits or *
 	private static final String PORT_PART = ":(?:[\\d]+|\\*)";
-	// a slash optionally followed by a non-slash character followed by any
-	// characters
+	
+	// a slash optionally followed by a non-slash character followed by any characters
 	private static final String PATH_PART = "(?:\\/(?:[^/][\\w\\d]*))+";
-	private static final Pattern HOST_SOURCE = Pattern.compile("^" + // match
-																		// start
-																		// of
-																		// string
-	"(" + AbstractCSPDirective.SCHEME_PART + "://)?" + // scheme-part is optional
-			"(" + AbstractCSPDirective.HOST_PART + ")" + // host-part is required
-			"(" + AbstractCSPDirective.PORT_PART + ")?" + // port-part is optional
-			"(" + AbstractCSPDirective.PATH_PART + ")?" + // path-part is optional
-			"$");
+	
+	private static final Pattern HOST_SOURCE = Pattern.compile("^" + // match start of string
+							"(" + AbstractCSPDirective.SCHEME_PART + "://)?" + // scheme-part is optional
+							"(" + AbstractCSPDirective.HOST_PART + ")" + // host-part is required
+							"(" + AbstractCSPDirective.PORT_PART + ")?" + // port-part is optional
+							"(" + AbstractCSPDirective.PATH_PART + ")?" + // path-part is optional
+							"$");//match end of string
+	
 	private static final Pattern SCHEME_SOURCE = Pattern.compile("^" + AbstractCSPDirective.SCHEME_PART + ":$");
 
 	protected AbstractCSPDirective(String name) {
@@ -98,10 +100,15 @@ public abstract class AbstractCSPDirective {
 		return sb.toString();
 	}
 
+	//should be overridden, if needed
 	protected String buildCustomDirective() {
 		return "";
 	}
 
+	public List<String> getDirectiveValues(){
+		return Collections.unmodifiableList(this.directiveValues);
+	}
+	
 	public void removeInternalDuplicates() {
 		Set<String> deduped = new LinkedHashSet<String>(this.directiveValues);
 		this.directiveValues.clear();
@@ -111,9 +118,10 @@ public abstract class AbstractCSPDirective {
 	//Scan provided directive, if this directive contains a value that matches in the provided, remove the value from this one
 	public void removeDuplicatesOf(AbstractCSPDirective other) {
 		Iterator<String> thisIt = this.directiveValues.iterator();
+		List<String> otherVals = other.getDirectiveValues();
 		while(thisIt.hasNext()){
 			String value = thisIt.next();
-			if(other.directiveValues.contains(value)){
+			if(otherVals.contains(value)){
 				thisIt.remove();
 			}
 		}

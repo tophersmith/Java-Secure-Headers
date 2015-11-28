@@ -24,6 +24,8 @@ public class ContentSecurityPolicy {
 			FontSrcDirective.NAME, ImgSrcDirective.NAME, MediaSrcDirective.NAME, ObjectSrcDirective.NAME,
 			ScriptSrcDirective.NAME, StyleSrcDirective.NAME };
 
+	
+	
 	public ContentSecurityPolicy() {
 		this.directiveMap = new HashMap<String, AbstractCSPDirective>();
 		this.validationReport = new CSPValidationReport();
@@ -41,17 +43,18 @@ public class ContentSecurityPolicy {
 			AbstractCSPDirective directive = this.directiveMap.get(key);
 			directive.removeInternalDuplicates();
 		}
-
 		if (this.directiveMap.containsKey(DefaultSrcDirective.NAME)) {
-			DefaultSrcDirective defaultDir = (DefaultSrcDirective) this.directiveMap.get(DefaultSrcDirective.NAME);
-			for (int i = 0; i < ContentSecurityPolicy.RELY_ON_DEFAULT.length; i++) {
-				AbstractCSPDirective directive = this.directiveMap.get(ContentSecurityPolicy.RELY_ON_DEFAULT[i]);
-				directive.removeDuplicatesOf(defaultDir);
-			}
-		} else {
-			// TODO check for similarities in RELYONDEFAULT to make a default?
+			removeDefaultDuplicates();
 		}
 		return this;
+	}
+	
+	private void removeDefaultDuplicates(){
+		DefaultSrcDirective defaultDir = (DefaultSrcDirective) this.directiveMap.get(DefaultSrcDirective.NAME);
+		for (int i = 0; i < ContentSecurityPolicy.RELY_ON_DEFAULT.length; i++) {
+			AbstractCSPDirective directive = this.directiveMap.get(ContentSecurityPolicy.RELY_ON_DEFAULT[i]);
+			directive.removeDuplicatesOf(defaultDir);
+		}
 	}
 
 	public void resetValidationReport() {
@@ -67,9 +70,16 @@ public class ContentSecurityPolicy {
 		return this.validationReport.isErrorsEmpty();
 	}
 
+	public boolean hasWarnings(){
+		return this.validationReport.isWarningsEmpty();
+	}
 	// can return empty list
-	public List<String> getValidationReports() {
+	public List<String> getValidationErrorReports() {
 		return this.validationReport.getErrorReports();
+	}
+	
+	public List<String> getValidationWarningReports(){
+		return this.validationReport.getWarningReports();
 	}
 
 	// return a string of the policy after removing invalid pieces
