@@ -16,8 +16,10 @@
 package securityheaders.csp;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import securityheaders.csp.directives.AbstractCSPDirective;
 import securityheaders.csp.directives.impl.ChildSrcDirective;
@@ -58,16 +60,29 @@ public class ContentSecurityPolicy {
 
 	// remove duplicates from policy
 	public ContentSecurityPolicy compress() {
-		for (String key : this.directiveMap.keySet()) {
-			AbstractCSPDirective directive = this.directiveMap.get(key);
+		for (Entry<String, AbstractCSPDirective> entry  : this.directiveMap.entrySet()) {
+			AbstractCSPDirective directive = entry.getValue();
 			directive.removeInternalDuplicates();
 		}
 		if (this.directiveMap.containsKey(DefaultSrcDirective.NAME)) {
 			removeDefaultDuplicates();
 		}
+		removeEmptyDirectives();
+		
 		return this;
 	}
 	
+	private void removeEmptyDirectives() {
+		Iterator<String> keyIter = this.directiveMap.keySet().iterator();
+		while (keyIter.hasNext()) {
+			String key = keyIter.next();
+			AbstractCSPDirective directive = this.directiveMap.get(key);
+			if(directive.getDirectiveValues().size() == 0){
+				this.directiveMap.remove(directive);
+			}
+		}
+	}
+
 	private void removeDefaultDuplicates(){
 		DefaultSrcDirective defaultDir = (DefaultSrcDirective) this.directiveMap.get(DefaultSrcDirective.NAME);
 		for (int i = 0; i < ContentSecurityPolicy.RELY_ON_DEFAULT.length; i++) {
@@ -82,8 +97,9 @@ public class ContentSecurityPolicy {
 
 	// validate all policy pieces
 	public boolean isValid() {
-		for (String key : this.directiveMap.keySet()) {
-			AbstractCSPDirective directive = this.directiveMap.get(key);
+		for (Entry<String, AbstractCSPDirective> entry  : this.directiveMap.entrySet()) {
+			String key = entry.getKey();
+			AbstractCSPDirective directive = entry.getValue();
 			directive.validateAndReport(this.validationReport);
 			if(!this.level.isAllowed(key)){
 				this.validationReport.addWarning(directive, this.level.name() + " does not define directive " + key);			
@@ -110,8 +126,8 @@ public class ContentSecurityPolicy {
 	// return a string of the policy after removing invalid pieces
 	public String build() {
 		StringBuilder sb = new StringBuilder();
-		for (String key : this.directiveMap.keySet()) {
-			AbstractCSPDirective directive = this.directiveMap.get(key);
+		for (Entry<String, AbstractCSPDirective> entry  : this.directiveMap.entrySet()) {
+			AbstractCSPDirective directive = entry.getValue();
 			sb.append(directive.buildDirective()).append("; ");
 		}
 		return sb.toString();
