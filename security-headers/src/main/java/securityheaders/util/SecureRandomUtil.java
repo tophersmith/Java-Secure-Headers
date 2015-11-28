@@ -38,7 +38,7 @@ public class SecureRandomUtil {
 
 	/**
 	 * After some number of uses of this instance, reseed the value <br/>
-	 * Note: this method is thread-safe-enough. Several threads can call it simultaneously, and more than one may reseed
+	 * Note: this method is thread-safe-<i>enough</i>. Several threads can call it simultaneously, and more than one may reseed
 	 * (which is thread-safe). Therefore, the countdown is a good-enough pseudo-lock to lower the likelihood of doing
 	 * this operation twice, even though there are no major downsides to doing the operation several times.
 	 */
@@ -61,6 +61,7 @@ public class SecureRandomUtil {
 
 	/**
 	 * Generate a randomized String using the supplied parameters
+	 * 
 	 * @param options contains the Strings to choose from to generate the final string
 	 * @param size the number of times to choose from options
 	 * @return a string containing <b>size</b> number of <b>options</b> 
