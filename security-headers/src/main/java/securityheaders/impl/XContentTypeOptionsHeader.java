@@ -17,11 +17,23 @@ package securityheaders.impl;
 
 import securityheaders.util.InvalidHeaderException;
 
+/**
+ * The X-Content-Type-Options header is used in response headers to protect
+ * against the User Agent trying to guess at the content type of the response.
+ * This defends against MIME confusion and Content Type Sniffing attacks.
+ * 
+ * @author Chris Smith
+ *
+ */
 public class XContentTypeOptionsHeader extends AbstractHeader {
 
 	private static final String PRIMARY_HEADER_NAME = "X-Content-Type-Options";
 	private static final String NOSNIFF = "nosniff";
 
+	/**
+	 * Constructs a new X-Content-Type-Options Header object
+	 * By default, sets value to nosniff
+	 */
 	public XContentTypeOptionsHeader() {
 		super(XContentTypeOptionsHeader.PRIMARY_HEADER_NAME);
 	}

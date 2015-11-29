@@ -20,10 +20,22 @@ import java.util.List;
 
 import securityheaders.util.InvalidHeaderException;
 
+/**
+ * Base Abstraction for all headers
+ * 
+ * @author Chris Smith
+ *
+ */
 public abstract class AbstractHeader {
 	private final String primaryHeaderName;
 	private final List<String> headerNames;
 
+	/**
+	 * Base abstraction to set up header names
+	 * 
+	 * @param primaryName Required name of the header
+	 * @param altNames Optional name(s) of the header (e.g. for experimental headers)
+	 */
 	protected AbstractHeader(String primaryName, String... altNames) {
 		this.primaryHeaderName = primaryName;
 		if (altNames != null && altNames.length > 0) {
@@ -40,21 +52,44 @@ public abstract class AbstractHeader {
 		addHeaderName(primaryName);
 	}
 
+	/**
+	 * add header name to list of headers
+	 */
 	private void addHeaderName(String name) {
 		if (!this.headerNames.contains(name)) {
 			this.headerNames.add(name);
 		}
 	}
 
+	/**
+	 * @return required header name
+	 */
 	public String getPrimaryHeaderName() {
 		return this.primaryHeaderName;
 	}
 
+	/**
+	 * @return all defined header names
+	 */
 	public List<String> getHeaderNames() {
 		return this.headerNames;
 	}
 
+	/**
+	 * ensure all header values are set correctly individually or
+	 * in combination. Assumed valid if no exception is thrown.
+	 * 
+	 * @throws InvalidHeaderException if <u>any</u> validate error occurs
+	 */
 	public abstract void validate() throws InvalidHeaderException;
 
+	/**
+	 * Constructs a String representation of the value of this header.
+	 * Does not validate.
+	 * @return a String representation of this header's value
+	 */
 	public abstract String buildHeaderValue();
+	
+	
+	//public abstract AbstractHeader buildRecommended();
 }

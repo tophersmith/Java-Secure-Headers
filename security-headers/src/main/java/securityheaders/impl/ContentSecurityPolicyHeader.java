@@ -20,11 +20,30 @@ import java.util.List;
 import securityheaders.csp.ContentSecurityPolicy;
 import securityheaders.util.InvalidHeaderException;
 
+/**
+ * The Content-Security-Policy header is used in response headers to inform 
+ * the User-Agent from where certain kinds of resources may be loaded.
+ * This defends against XSS, UI Redress, and many other kinds of attacks
+ * 
+ * @author Chris Smith
+ *
+ */
 public class ContentSecurityPolicyHeader extends AbstractHeader {
 
+	/**
+	 * Defines the available header names for CSP
+	 * Defines both the standard(violation mode) header as well as the 
+	 * report only header
+	 * 
+	 * @author Chris Smith
+	 *
+	 */
 	public static enum CSPHeaderName {
-		CSP("Content-Security-Policy", "Content-Security-Policy-Report-Only"), XCSP("X-Content-Security-Policy",
-				"X-Content-Security-Policy-Report-Only"), WEBKIT("X-Webkit-CSP", "X-Webkit-CSP-Report-Only"),;
+		CSP("Content-Security-Policy", "Content-Security-Policy-Report-Only"), 
+		XCSP("X-Content-Security-Policy", "X-Content-Security-Policy-Report-Only"), 
+		WEBKIT("X-Webkit-CSP", "X-Webkit-CSP-Report-Only"),
+		;
+		
 		private final String primary;
 		private final String report;
 
@@ -46,19 +65,41 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 	private boolean condense = false;
 	private ContentSecurityPolicy csp = null;
 
+	/**
+	 * Constructs a new Content-Security-Policy Header object
+	 * <b>Does not</b> configure a CSP by default, and does not enable 
+	 * report-only mode, also does not condense
+	 * @param headerName which CSPHeaderName type this should use 
+	 */
 	public ContentSecurityPolicyHeader(CSPHeaderName headerName) {
 		this(headerName, false);
 	}
 
+	/**
+	 * Constructs a new Content-Security-Policy Header object
+	 * <b>Does not</b> configure a CSP by default
+	 * @param headerName which CSPHeaderName type this should use
+	 * @param reportOnly sets whether to use the reporting header or not 
+	 */
 	public ContentSecurityPolicyHeader(CSPHeaderName headerName, boolean reportOnly) {
 		super(reportOnly ? headerName.getReportName() : headerName.getPrimaryName());
 	}
 
+	/**
+	 * Sets Content-Security-Policy to condense the policy
+	 * @param condense true if CSP should be minified
+	 * @return a reference to this object
+	 */
 	public ContentSecurityPolicyHeader setCondensed(boolean condense) {
 		this.condense = condense;
 		return this;
 	}
 
+	/**
+	 * Assign a ContentSecurityPolicy object to this header
+	 * @param policy the configured CSP
+	 * @return a reference to this object
+	 */
 	public ContentSecurityPolicyHeader setPolicy(ContentSecurityPolicy policy) {
 		this.csp = policy;
 		return this;
@@ -89,5 +130,4 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 			throw new InvalidHeaderException(sb.toString());
 		}
 	}
-
 }

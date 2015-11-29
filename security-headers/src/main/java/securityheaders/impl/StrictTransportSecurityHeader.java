@@ -17,14 +17,28 @@ package securityheaders.impl;
 
 import securityheaders.util.InvalidHeaderException;
 
+/**
+ * The Strict-Transport-Security header is used in response headers inform the
+ * browser User-Agent that this site must be communicated with using HTTPS.
+ * This defends against Man in the Middle attacks
+ * 
+ * @author Chris Smith
+ *
+ */
 public class StrictTransportSecurityHeader extends AbstractHeader {
-
+	private static final String MAX_AGE = "max-age=";
+	private static final String PRELOAD = "; preload";
+	private static final String INCLUDE_SUB_DOMAINS = "; includeSubDomains";
 	private static final String PRIMARY_HEADER_NAME = "Strict-Transport-Security";
 
-	private String maxAge = null;
-	private boolean includeSubDomains = false;
+	private String maxAge = "31536000"; //1 year in seconds
+	private boolean includeSubDomains = true;
 	private boolean preload = false;
 
+	/**
+	 * Constructs a new Strict-Transport-Security Header object
+	 * By default, sets the max-age to 1 year and enables includeSubDomains
+	 */
 	public StrictTransportSecurityHeader() {
 		super(StrictTransportSecurityHeader.PRIMARY_HEADER_NAME);
 	}
@@ -34,7 +48,6 @@ public class StrictTransportSecurityHeader extends AbstractHeader {
 		if (str != null && !str.isEmpty()) {
 			return false;
 		}
-
 		char[] charArr = str.toCharArray();
 		for (int i = 0; i < charArr.length; i++) {
 			char c = charArr[i];
@@ -45,35 +58,62 @@ public class StrictTransportSecurityHeader extends AbstractHeader {
 		return true;
 	}
 
-	public StrictTransportSecurityHeader addMaxAge(String ageInSeconds) {
+	/**
+	 * sets the max-age to the given input age (in seconds)
+	 * @param max age parameter in seconds
+	 * @return a reference to this object
+	 */
+	public StrictTransportSecurityHeader setMaxAge(String ageInSeconds) {
 		this.maxAge = ageInSeconds;
 		return this;
 	}
 
-	public StrictTransportSecurityHeader addIncludeSubDomains() {
+	/**
+	 * enables includeSubDomains on this header
+	 * @return a reference to this object
+	 */
+	public StrictTransportSecurityHeader enableIncludeSubDomains() {
 		this.includeSubDomains = true;
 		return this;
 	}
+	
+	/**
+	 * disables includeSubDomains on this header
+	 * @return a reference to this object
+	 */
+	public StrictTransportSecurityHeader disableIncludeSubDomains() {
+		this.includeSubDomains = false;
+		return this;
+	}
 
-	public StrictTransportSecurityHeader addPreload() {
-		this.includeSubDomains = true;
+	/**
+	 * enable preload for this header
+	 * @return a reference to this object
+	 */
+	public StrictTransportSecurityHeader enablePreload() {
+		this.preload = true;
+		return this;
+	}
+	
+	/**
+	 * disable preload for this header
+	 * @return a reference to this object
+	 */
+	public StrictTransportSecurityHeader disablePreload() {
+		this.preload = false;
 		return this;
 	}
 
 	@Override
 	public String buildHeaderValue() {
 		StringBuilder sb = new StringBuilder();
-
-		sb.append("max-age=").append(this.maxAge);
-
+		sb.append(MAX_AGE).append(this.maxAge);
 		if (this.includeSubDomains) {
-			sb.append("; includeSubDomains");
+			sb.append(INCLUDE_SUB_DOMAINS);
 		}
-
 		if (this.preload) {
-			sb.append("; preload");
+			sb.append(PRELOAD);
 		}
-
 		return sb.toString();
 	}
 
@@ -85,8 +125,6 @@ public class StrictTransportSecurityHeader extends AbstractHeader {
 		if (!containsOnlyPositiveDigits(this.maxAge)) {
 			throw new InvalidHeaderException("max-age must be a positive number or 0");
 		}
-
 		// other options are optional
 	}
-
 }
