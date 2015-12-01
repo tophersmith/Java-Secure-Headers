@@ -18,6 +18,18 @@ package securityheaders.csp.directives.impl;
 import securityheaders.csp.directives.AbstractCSPDirective;
 import securityheaders.csp.directives.AbstractSrcDirective;
 
+/**
+ * From 
+ * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <br/>
+ * The img-src directive restricts from where the protected resource can 
+ * load images. This directive relies on the CSP default-src list if this 
+ * directive is undefined. See 
+ * {@link http://www.w3.org/TR/CSP2/#directive-img-src}
+ * 
+ * @author Chris Smith
+ *
+ */
 public class ImgSrcDirective extends AbstractSrcDirective {
 
 	public static final String NAME = "img-src";
@@ -26,19 +38,31 @@ public class ImgSrcDirective extends AbstractSrcDirective {
 		super(ImgSrcDirective.NAME);
 	}
 
+	/**
+	 * adds the value 'none' to the directive
+	 * @return a reference to this object
+	 */
 	public ImgSrcDirective addNone() {
 		addDirectiveValue(AbstractCSPDirective.SRC_KEY_NONE);
 		return this;
 	}
 
+	/**
+	 * adds the value 'self' to the directive
+	 * @return a reference to this object
+	 */
 	public ImgSrcDirective addSelf() {
 		addDirectiveValue(AbstractCSPDirective.SRC_KEY_SELF);
 		return this;
 	}
 
+	/**
+	 * adds the given value to the directive
+	 * @param source the src-list attribute to add to the directive
+	 * @return a reference to this object
+	 */
 	public ImgSrcDirective addSource(String source) {
 		addDirectiveValue(source);
 		return this;
 	}
-
 }

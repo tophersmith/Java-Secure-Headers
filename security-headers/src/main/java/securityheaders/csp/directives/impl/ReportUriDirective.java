@@ -21,14 +21,33 @@ import java.net.URISyntaxException;
 import securityheaders.csp.CSPValidationReport;
 import securityheaders.csp.directives.AbstractCSPDirective;
 
+/**
+ * From 
+ * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <br/>
+ * The report-uri directive specifies a URL to which the user agent sends 
+ * reports about policy violation. See 
+ * {@link http://www.w3.org/TR/CSP2/#directive-report-uri}
+ * 
+ * @author Chris Smith
+ *
+ */
 public class ReportUriDirective extends AbstractCSPDirective {
 
+	/**
+	 * The name of the directive
+	 */
 	public static final String NAME = "report-uri";
 
 	public ReportUriDirective() {
 		super(ReportUriDirective.NAME);
 	}
 
+	/**
+	 * adds the given URL to the directive
+	 * @param uri a URL endpoint that accepts CSP violation reports
+	 * @return
+	 */
 	public ReportUriDirective addReportUri(String uri) {
 		addDirectiveValue(uri);
 		return this;
@@ -45,5 +64,4 @@ public class ReportUriDirective extends AbstractCSPDirective {
 			}
 		}
 	}
-
 }

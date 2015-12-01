@@ -18,24 +18,50 @@ package securityheaders.csp.directives.impl;
 import securityheaders.csp.directives.AbstractCSPDirective;
 import securityheaders.csp.directives.AbstractSrcDirective;
 
+/**
+ * From 
+ * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <br/>
+ * The base-uri directive restricts the URLs that can be used to specify the 
+ * document base URL. See {@link http://www.w3.org/TR/CSP2/#directive-base-uri}
+ * 
+ * @author Chris Smith
+ *
+ */
 public class BaseUriDirective extends AbstractSrcDirective {
-
+	
+	/**
+	 * The name of the directive
+	 */
 	public static final String NAME = "base-uri";
 
 	public BaseUriDirective() {
 		super(BaseUriDirective.NAME);
 	}
 
+	/**
+	 * adds the value 'none' to the directive
+	 * @return a reference to this object
+	 */
 	public BaseUriDirective addNone() {
 		addDirectiveValue(AbstractCSPDirective.SRC_KEY_NONE);
 		return this;
 	}
 
+	/**
+	 * adds the value 'self' to the directive
+	 * @return a reference to this object
+	 */
 	public BaseUriDirective addSelf() {
 		addDirectiveValue(AbstractCSPDirective.SRC_KEY_SELF);
 		return this;
 	}
 
+	/**
+	 * adds the given value to the directive
+	 * @param source the src-list attribute to add to the directive
+	 * @return a reference to this object
+	 */
 	public BaseUriDirective addSource(String source) {
 		addDirectiveValue(source);
 		return this;

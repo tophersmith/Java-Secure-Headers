@@ -18,19 +18,52 @@ package securityheaders.csp.directives.impl;
 import securityheaders.csp.CSPValidationReport;
 import securityheaders.csp.directives.AbstractCSPDirective;
 
+/**
+ * From 
+ * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <br/>
+ * The frame-ancestors directive indicates whether the user agent should 
+ * allow embedding the resource using a frame, iframe, object, embed or 
+ * applet element, or equivalent functionality in non-HTML resources. 
+ * See {@link http://www.w3.org/TR/CSP2/#directive-frame-ancestors}
+ * 
+ * @author Chris Smith
+ *
+ */
 public class FrameAncestorsDirective extends AbstractCSPDirective {
 
+	/**
+	 * The name of the directive
+	 */
 	public static final String NAME = "frame-ancestors";
 
 	public FrameAncestorsDirective() {
 		super(FrameAncestorsDirective.NAME);
 	}
 
+	/**
+	 * adds the value 'none' to the directive
+	 * @return a reference to this object
+	 */
 	public FrameAncestorsDirective addNone() {
 		addDirectiveValue(AbstractCSPDirective.SRC_KEY_NONE);
 		return this;
 	}
 
+	/**
+	 * adds the value 'self' to the directive
+	 * @return a reference to this object
+	 */
+	public FrameAncestorsDirective addSelf() {
+		addDirectiveValue(AbstractCSPDirective.SRC_KEY_SELF);
+		return this;
+	}
+
+	/**
+	 * adds the given value to the directive
+	 * @param source the src-list attribute to add to the directive
+	 * @return a reference to this object
+	 */
 	public FrameAncestorsDirective addSource(String source) {
 		addDirectiveValue(source);
 		return this;
@@ -41,10 +74,12 @@ public class FrameAncestorsDirective extends AbstractCSPDirective {
 		for (int i = 0; i < this.directiveValues.size(); i++) {
 			String val = this.directiveValues.get(i);
 			val = val.trim().toLowerCase();
-			if (!val.equals(AbstractCSPDirective.SRC_KEY_NONE) && !isHostSource(val) && !isSchemeSource(val)) {
-				report.addError(this, "Ancestor Source " + val + " is not one of host-source, scheme-source, or 'none'");
+			if (!val.equals(AbstractCSPDirective.SRC_KEY_NONE) && 
+					!val.equals(AbstractCSPDirective.SRC_KEY_SELF) &&
+					!isHostSource(val) && !isSchemeSource(val)) {
+				report.addError(this, "Ancestor Source " + val + 
+						" is not one of host-source, scheme-source, 'self', or 'none'");
 			}
 		}
 	}
-
 }

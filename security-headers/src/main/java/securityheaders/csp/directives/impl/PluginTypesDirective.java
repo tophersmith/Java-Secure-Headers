@@ -18,14 +18,34 @@ package securityheaders.csp.directives.impl;
 import securityheaders.csp.CSPValidationReport;
 import securityheaders.csp.directives.AbstractCSPDirective;
 
+/**
+ * From 
+ * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <br/>
+ * The plugin-types directive restricts the set of plugins that can be 
+ * invoked by the protected resource by limiting the types of resources 
+ * that can be embedded. See 
+ * {@link http://www.w3.org/TR/CSP2/#directive-plugin-types}
+ * 
+ * @author Chris Smith
+ *
+ */
 public class PluginTypesDirective extends AbstractCSPDirective {
 
+	/**
+	 * The name of the directive
+	 */
 	public static final String NAME = "plugin-types";
 
 	public PluginTypesDirective() {
 		super(PluginTypesDirective.NAME);
 	}
 
+	/**
+	 * adds the given media-type to the directive
+	 * @param mediaType a MIME type
+	 * @return a reference to this object
+	 */
 	public PluginTypesDirective addMediaType(String mediaType) {
 		this.directiveValues.add(mediaType);
 		return this;
