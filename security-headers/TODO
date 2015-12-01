@@ -1,7 +1,8 @@
 comments on:
 	securityheaders.*
-	securityheaders.csp.*
 
 comments for buildHeaders/validate in securityheaders.impl
+
+ContentSecurityPolicy should have a comment example of how to use it.
 
 design a testing framework?

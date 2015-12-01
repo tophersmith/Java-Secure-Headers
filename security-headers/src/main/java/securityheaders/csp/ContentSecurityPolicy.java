@@ -32,33 +32,66 @@ import securityheaders.csp.directives.impl.ObjectSrcDirective;
 import securityheaders.csp.directives.impl.ScriptSrcDirective;
 import securityheaders.csp.directives.impl.StyleSrcDirective;
 
+/**
+ * A Content Security Policy defines several directives that indicate from 
+ * where certain kinds of content may be loaded. This is sent via a 
+ * declarative list in an HTTP Response header. A Browser's User-Agent takes
+ * this policy into consideration when loading resources into the browser.
+ * This protects the browser from a wide array of content injection 
+ * vulnerabilities. The CSP is a "Defense-in-Depth" strategy component and 
+ * should be used alongside other defenses, such as input validation.
+ * 
+ * @author Chris Smith
+ *
+ */
 public class ContentSecurityPolicy {
 
 	private final Map<String, AbstractCSPDirective> directiveMap;
 	private final CSPValidationReport validationReport;
 	private final PolicyLevel level;
 	
-	private static final String[] RELY_ON_DEFAULT = { ChildSrcDirective.NAME, ConnectSrcDirective.NAME,
-			FontSrcDirective.NAME, ImgSrcDirective.NAME, MediaSrcDirective.NAME, ObjectSrcDirective.NAME,
-			ScriptSrcDirective.NAME, StyleSrcDirective.NAME };
+	//array of all directives that fallback to the default-src list
+	private static final String[] RELY_ON_DEFAULT = { 
+			ChildSrcDirective.NAME,  ConnectSrcDirective.NAME,
+			FontSrcDirective.NAME, 	 ImgSrcDirective.NAME, 
+			MediaSrcDirective.NAME,  ObjectSrcDirective.NAME,
+			ScriptSrcDirective.NAME, StyleSrcDirective.NAME 
+			};
 
+	/**
+	 * Creates a new ContentSecurityPolicy with a PolicyLevel of CSPv2
+	 */
 	public ContentSecurityPolicy(){
 		this(PolicyLevel.CSP2);
 	}
 	
+	/**
+	 * Create a new ContentSecurityPolicy using the given PolicyLevel
+	 * @param level a PolicyLevel to validate against
+	 */
 	public ContentSecurityPolicy(PolicyLevel level) {
 		this.directiveMap = new HashMap<String, AbstractCSPDirective>();
 		this.validationReport = new CSPValidationReport();
 		this.level = level;
 	}
 
-	// add to the map
+	/**
+	 * adds a new CSPDirective to this policy. This directive replaces any 
+	 * previously defined directive of the same type
+	 * @param directive a new directive to be attached to this policy
+	 * @return a reference to this object
+	 */
 	public ContentSecurityPolicy addDirective(AbstractCSPDirective directive) {
 		this.directiveMap.put(directive.getDirectiveName(), directive);
 		return this;
 	}
 
-	// remove duplicates from policy
+	/**
+	 * Attempts to reduce a policy to its most compressed version. This
+	 * transformation occurs in place, therefore post-compression some data 
+	 * may be lost
+	 * @return a reference to this object
+	 */
 	public ContentSecurityPolicy compress() {
 		for (Entry<String, AbstractCSPDirective> entry  : this.directiveMap.entrySet()) {
 			AbstractCSPDirective directive = entry.getValue();
@@ -72,6 +105,10 @@ public class ContentSecurityPolicy {
 		return this;
 	}
 	
+	/**
+	 * searches all directives for any that do not define values and removes
+	 * them from this policy
+	 */
 	private void removeEmptyDirectives() {
 		Iterator<String> keyIter = this.directiveMap.keySet().iterator();
 		while (keyIter.hasNext()) {
@@ -83,6 +120,10 @@ public class ContentSecurityPolicy {
 		}
 	}
 
+	/**
+	 * removes values from directives where the directive relies on default-src
+	 * and contains a duplicate value of that directive.
+	 */
 	private void removeDefaultDuplicates(){
 		DefaultSrcDirective defaultDir = (DefaultSrcDirective) this.directiveMap.get(DefaultSrcDirective.NAME);
 		for (int i = 0; i < ContentSecurityPolicy.RELY_ON_DEFAULT.length; i++) {
@@ -91,39 +132,64 @@ public class ContentSecurityPolicy {
 		}
 	}
 
+	/**
+	 * clears the validation report attached to this policy so that validation
+	 * may be re-run
+	 */
 	public void resetValidationReport() {
 		this.validationReport.reset();
 	}
 
-	// validate all policy pieces
+	/**
+	 * For each directive defined on this policy, attempt to validate the 
+	 * directive, filling the validation report with any validation issues
+	 * discovered
+	 * @return true if no validation <u>errors</u> occurred.
+	 */
 	public boolean isValid() {
 		for (Entry<String, AbstractCSPDirective> entry  : this.directiveMap.entrySet()) {
 			String key = entry.getKey();
 			AbstractCSPDirective directive = entry.getValue();
 			directive.validateAndReport(this.validationReport);
-			if(!this.level.isAllowed(key)){
+			if(!this.level.isAllowed(directive)){
 				this.validationReport.addWarning(directive, this.level.name() + " does not define directive " + key);			
 			}
-			if(!this.level.isDeprecated(key)){
+			if(!this.level.isDeprecated(directive)){
 				this.validationReport.addWarning(directive, this.level.name() + " has deprecated directive " + key);
 			}
 		}
 		return this.validationReport.isErrorsEmpty();
 	}
 
+	/**
+	 * does the validation report contain warnings
+	 * @return true if there is at least one warning report
+	 */
 	public boolean hasWarnings(){
 		return this.validationReport.isWarningsEmpty();
 	}
-	// can return empty list
+	
+	/**
+	 * get the list of errors attached to the validation report
+	 * @return a List of errors encountered during validation
+	 */
 	public List<String> getValidationErrorReports() {
 		return this.validationReport.getErrorReports();
 	}
 	
+	/**
+	 * get the list of warnings attached to the validation report
+	 * @return a List of warnings encountered during validation
+	 */
 	public List<String> getValidationWarningReports(){
 		return this.validationReport.getWarningReports();
 	}
 
-	// return a string of the policy after removing invalid pieces
+	/**
+	 * Construct a String representation of the policy using the defined
+	 * CSP directives
+	 * @return a String representation of this policy
+	 */
 	public String build() {
 		StringBuilder sb = new StringBuilder();
 		for (Entry<String, AbstractCSPDirective> entry  : this.directiveMap.entrySet()) {

@@ -21,6 +21,18 @@ import java.util.List;
 
 import securityheaders.csp.directives.AbstractCSPDirective;
 
+/**
+ * The CSPValidationReport holds errors and warnings related to validation of 
+ * the CSP directives. In these reports, Errors denote issues with the 
+ * directives that indicate a directive is incorrect and will not work if 
+ * sent - e.g. the directive's value is not parseable. Warnings denote issues 
+ * with the directives that indicate a directive is not accurate, but can still 
+ * be sent with the intended outcome intact - e.g. the directive name is 
+ * unknown. 
+ * 
+ * @author Chris Smith
+ *
+ */
 public class CSPValidationReport {
 
 	private final List<String> errors;
@@ -31,34 +43,64 @@ public class CSPValidationReport {
 		this.warnings = new ArrayList<String>();
 	}
 
+	/**
+	 * does the report contain any warnings
+	 * @return true if a warning has been registered with this report
+	 */
 	public boolean isWarningsEmpty() {
 		return this.warnings.isEmpty();
 	}
-	
+
+	/**
+	 * does the report contain any errors
+	 * @return true if a warning has been registered with this report
+	 */
 	public boolean isErrorsEmpty() {
 		return this.errors.isEmpty();
 	}
 
+	/**
+	 * register a new warning with this report
+	 * @param directive the directive that has a validation failure
+	 * @param report a validation report to hold any issues discovered 
+	 */
 	public void addWarning(AbstractCSPDirective directive, String report) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(directive.getDirectiveName()).append(" reports a validation warning: ").append(report);
 		this.warnings.add(sb.toString());
 	}
-
+	
+	/**
+	 * register a new error with this report
+	 * @param directive the directive that has a validation failure
+	 * @param report a validation report to hold any issues discovered 
+	 */
 	public void addError(AbstractCSPDirective directive, String report) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(directive.getDirectiveName()).append(" reports a validation error: ").append(report);
 		this.errors.add(sb.toString());
 	}
 	
+	/**
+	 * get a list of warnings for this report
+	 * @return a list containing all warnings registered with this report
+	 */
 	public List<String> getWarningReports() {
 		return Collections.unmodifiableList(this.warnings);
 	}
 	
+	/**
+	 * get a list of errors for this report
+	 * @return a list containing all errors registered with this report
+	 */
 	public List<String> getErrorReports() {
 		return Collections.unmodifiableList(this.errors);
 	}
 
+	/**
+	 * remove all errors and warnings from this report so that the report
+	 * may be run again
+	 */
 	public void reset() {
 		this.errors.clear();
 		this.warnings.clear();
