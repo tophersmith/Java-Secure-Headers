@@ -37,17 +37,17 @@ public class SecurityHeaders {
 		return this;
 	}
 
-	public List<InvalidHeaderException> validateAllHeaders() {
-		List<InvalidHeaderException> exceptions = null;
+	public List<String> validateAllHeaders() {
+		List<String> exceptions = null;
 		for (int i = 0; i < this.headers.size(); i++) {
 			AbstractHeader header = this.headers.get(i);
 			try {
 				header.validate();
 			} catch (InvalidHeaderException e) {
 				if (exceptions == null) {
-					exceptions = new ArrayList<InvalidHeaderException>();
+					exceptions = new ArrayList<String>();
 				}
-				exceptions.add(e);
+				exceptions.add(e.getMessage());
 			}
 		}
 		return exceptions;

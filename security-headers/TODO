@@ -1,8 +1,7 @@
 comments on:
 	securityheaders.*
 	securityheaders.csp.*
-	securityheaders.csp.directives.*
 
-comments for buildHeaders/validate 
+comments for buildHeaders/validate in securityheaders.impl
 
 design a testing framework?

@@ -19,8 +19,8 @@ import java.security.SecureRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * SecureRandomUtil manages a SecureRandom instance and dispatches to it for requested values. The managed instance
- * reseeds every so often
+ * SecureRandomUtil manages a SecureRandom instance and dispatches 
+ * to it for requested values. The managed instance reseeds every so often
  *
  * @author Chris Smith
  *
@@ -40,12 +40,9 @@ public class SecureRandomUtil {
 		this.countdown = new AtomicInteger(SecureRandomUtil.COUNTDOWN_MAX);
 	}
 
-	private SecureRandom getRandom() {
-		return this.random;
-	}
-
 	/**
-	 * Reset the seed to a newly seeded value instead of constructing a new object. This is cryptographically strong.
+	 * Reset the seed to a newly seeded value instead of constructing a new 
+	 * object. This is cryptographically strong.
 	 */
 	private void generateNewSeed() {
 		this.random.setSeed(this.random.generateSeed(SecureRandomUtil.SEED_SIZE));
@@ -53,9 +50,11 @@ public class SecureRandomUtil {
 
 	/**
 	 * After some number of uses of this instance, reseed the value <br/>
-	 * Note: this method is thread-safe-<i>enough</i>. Several threads can call it simultaneously, and more than one may reseed
-	 * (which is thread-safe). Therefore, the countdown is a good-enough pseudo-lock to lower the likelihood of doing
-	 * this operation twice, even though there are no major downsides to doing the operation several times.
+	 * Note: this method is thread-safe-<i>enough</i>. Several threads can 
+	 * call it simultaneously, and more than one may reseed (which is 
+	 * thread-safe). Therefore, the countdown is a good-enough pseudo-lock 
+	 * to lower the likelihood of doing this operation twice, even though 
+	 * there are no major downsides to doing the operation several times.
 	 */
 	private void checkReseed() {
 		if (this.countdown.decrementAndGet() <= 0) {
@@ -71,7 +70,7 @@ public class SecureRandomUtil {
 	 */
 	public static int nextInt(int bound) {
 		SecureRandomUtil.instance.checkReseed();
-		return SecureRandomUtil.instance.getRandom().nextInt(bound);
+		return SecureRandomUtil.instance.random.nextInt(bound);
 	}
 
 	/**

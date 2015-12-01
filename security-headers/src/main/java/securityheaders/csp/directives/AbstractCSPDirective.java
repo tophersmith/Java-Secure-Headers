@@ -25,6 +25,13 @@ import java.util.regex.Pattern;
 
 import securityheaders.csp.CSPValidationReport;
 
+/**
+ * The AbstractCSPDirective is the base implementation for all directive values
+ * It handles basic validation and managing incoming directive values
+ * 
+ * @author Chris Smith
+ *
+ */
 public abstract class AbstractCSPDirective {
 
 	protected final List<String> directiveValues;
@@ -36,6 +43,7 @@ public abstract class AbstractCSPDirective {
 	public static final String SRC_UNSAFE_INLINE = "'unsafe-inline'";
 	public static final String SRC_UNSAFE_EVAL = "'unsafe-eval'";
 
+	//these characters may not exist in any directive value
 	private static final String[] ILLEGAL_SRC_CHARS = { " ", ";", "," };
 
 	// 1 letter plus optional letters, digits, +, -, or .
@@ -50,6 +58,7 @@ public abstract class AbstractCSPDirective {
 	// a slash optionally followed by a non-slash character followed by any characters
 	private static final String PATH_PART = "(?:\\/(?:[^/][\\w\\d]*))+";
 	
+	//host-source definition
 	private static final Pattern HOST_SOURCE = Pattern.compile("^" + // match start of string
 							"(" + AbstractCSPDirective.SCHEME_PART + "://)?" + // scheme-part is optional
 							"(" + AbstractCSPDirective.HOST_PART + ")" + // host-part is required
@@ -57,6 +66,7 @@ public abstract class AbstractCSPDirective {
 							"(" + AbstractCSPDirective.PATH_PART + ")?" + // path-part is optional
 							"$");//match end of string
 	
+	//scheme-source definition
 	private static final Pattern SCHEME_SOURCE = Pattern.compile("^" + AbstractCSPDirective.SCHEME_PART + ":$");
 
 	protected AbstractCSPDirective(String name) {
@@ -64,16 +74,32 @@ public abstract class AbstractCSPDirective {
 		this.directiveValues = new ArrayList<String>();
 	}
 
+	/**
+	 * get this directive's proper name
+	 * @return an RFC-compliant directive name
+	 */
 	public String getDirectiveName() {
 		return this.name;
 	}
 
+	/**
+	 * append the given directive value to this directive if it 
+	 * is not null or empty
+	 * @param value a directive value to add
+	 */
 	protected void addDirectiveValue(String value) {
 		if (value != null && !value.trim().isEmpty()) {
 			this.directiveValues.add(value);
 		}
 	}
 
+	/**
+	 * Validate a given directive value as a source-list. Report any validation
+	 * errors to the provided report
+	 * 
+	 * @param val a directive value to validate
+	 * @param report a validation report to hold any issues discovered 
+	 */
 	protected void validateSourceListValue(String val, CSPValidationReport report) {
 		String test = val.trim().toLowerCase();
 		for (int i = 0; i < AbstractCSPDirective.ILLEGAL_SRC_CHARS.length; i++) {
@@ -84,23 +110,44 @@ public abstract class AbstractCSPDirective {
 		}
 
 		if (!test.equals(AbstractCSPDirective.SRC_KEY_SELF) && !test.equals(AbstractCSPDirective.SRC_KEY_NONE)
-				&& !isValidKeyword(test) && !isSchemeSource(test) && !isHostSource(test)) {
+				&& !isValidKeyword(test, report) && !isSchemeSource(test) && !isHostSource(test)) {
 			report.addError(this, "Source value " + val + " could not be validated");
 		}
 	}
 
-	protected boolean isHostSource(String test) {
-		return AbstractCSPDirective.HOST_SOURCE.matcher(test).find();
+	/**
+	 * match a host-source value
+	 * @param val a directive value to validate
+	 * @return true if this directive value is a host-source value
+	 */
+	protected boolean isHostSource(String val) {
+		return AbstractCSPDirective.HOST_SOURCE.matcher(val).find();
 	}
 
-	protected boolean isSchemeSource(String test) {
-		return AbstractCSPDirective.SCHEME_SOURCE.matcher(test).find();
+	/**
+	 * match a scheme-source value
+	 * @param val a directive value to validate
+	 * @return true if this directive value is a scheme-source value
+	 */
+	protected boolean isSchemeSource(String val) {
+		return AbstractCSPDirective.SCHEME_SOURCE.matcher(val).find();
 	}
 
-	protected boolean isValidKeyword(String val) {
+	/**
+	 * Validate any Keywords associated with this directive
+	 * 
+	 * @param val a directive value to validate
+	 * @param report a validation report to hold any issues discovered
+	 * @return true if this keyword is valid, false if it isn't or doesn't exist
+	 */
+	protected boolean isValidKeyword(String val, CSPValidationReport report) {
 		return false;
 	}
 
+	/**
+	 * Convert this directive into a proper string representation
+	 * @return a string representation of this directive
+	 */
 	public String buildDirective() {
 		StringBuilder sb = new StringBuilder();
 		if (this.directiveValues.size() > 0) {
@@ -113,22 +160,38 @@ public abstract class AbstractCSPDirective {
 		return sb.toString();
 	}
 
-	//should be overridden, if needed
+	/**
+	 * OVERRIDE THIS IF NEEDED
+	 * @return a String containing any additional directive values
+	 */
 	protected String buildCustomDirective() {
 		return "";
 	}
 
+	/**
+	 * Get the list of directive values
+	 * 
+	 * @return a List of individual values
+	 */
 	public List<String> getDirectiveValues(){
 		return Collections.unmodifiableList(this.directiveValues);
 	}
 	
+	/**
+	 * Within this directive, remove any duplicate values
+	 */
 	public void removeInternalDuplicates() {
 		Set<String> deduped = new LinkedHashSet<String>(this.directiveValues);
 		this.directiveValues.clear();
 		this.directiveValues.addAll(deduped);
 	}
 
-	//Scan provided directive, if this directive contains a value that matches in the provided, remove the value from this one
+	/**
+	 * Scan the provided directive. If this directive contains a value that 
+	 * matches in the provided, remove the value from this directive's list
+	 * 
+	 * @param other the directive to compare against 
+	 */
 	public void removeDuplicatesOf(AbstractCSPDirective other) {
 		Iterator<String> thisIt = this.directiveValues.iterator();
 		List<String> otherVals = other.getDirectiveValues();
@@ -140,5 +203,11 @@ public abstract class AbstractCSPDirective {
 		}
 	}
 
+	/**
+	 * For this CSPDirective, ensure all values are correctly set up for the 
+	 * directive and add validation errors to the provided CSPValidationReport
+	 * 
+	 * @param report a validation report to hold any issues discovered
+	 */
 	public abstract void validateAndReport(CSPValidationReport report);
 }

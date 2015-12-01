@@ -17,12 +17,26 @@ package securityheaders.csp.directives;
 
 import securityheaders.csp.CSPValidationReport;
 
+/**
+ * The AbstractSrcDirective is a base class for all source-list based 
+ * directives. It handles source-list validation.
+ * 
+ * @author Chris Smith
+ *
+ */
 public abstract class AbstractSrcDirective extends AbstractCSPDirective {
 
 	protected AbstractSrcDirective(String name) {
 		super(name);
 	}
 
+	/**
+	 * For this SrcDirective, ensure all values are 'none', *, or a source-list
+	 * value. 
+	 * @param report a validation report to hold any issues discovered
+	 * <br/> 
+	 * See: {@link AbstractCSPDirective#validateAndReport(CSPValidationReport)}
+	 */
 	@Override
 	public void validateAndReport(CSPValidationReport report) {
 		if(this.directiveValues.size() > 1){
@@ -40,6 +54,10 @@ public abstract class AbstractSrcDirective extends AbstractCSPDirective {
 		validateAdditional(report);
 	}
 
+	/**
+	 * validate this csp in any additional ways necessary
+	 * @param report a validation report to hold any issues discovered
+	 */
 	protected void validateAdditional(CSPValidationReport report) {
 		//left for Overridding
 	}

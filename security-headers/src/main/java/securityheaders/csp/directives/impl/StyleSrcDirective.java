@@ -16,7 +16,7 @@
 package securityheaders.csp.directives.impl;
 
 import securityheaders.csp.directives.AbstractCSPDirective;
-import securityheaders.csp.directives.AbstractInlineDirective;
+import securityheaders.csp.directives.AbstractUnsafeDirective;
 
 /**
  * From 
@@ -30,7 +30,7 @@ import securityheaders.csp.directives.AbstractInlineDirective;
  * @author Chris Smith
  *
  */
-public class StyleSrcDirective extends AbstractInlineDirective {
+public class StyleSrcDirective extends AbstractUnsafeDirective {
 
 	/**
 	 * The name of the directive
@@ -74,7 +74,7 @@ public class StyleSrcDirective extends AbstractInlineDirective {
 	 * @return a reference to this object
 	 */
 	public StyleSrcDirective addUnsafeInline(boolean allow) {
-		addDirectiveValue(AbstractInlineDirective.INLINE);
+		addDirectiveValue(AbstractUnsafeDirective.INLINE);
 		return this;
 	}
 
@@ -83,7 +83,7 @@ public class StyleSrcDirective extends AbstractInlineDirective {
 	 * @return a reference to this object
 	 */
 	public StyleSrcDirective addUnsafeEval(boolean allow) {
-		addDirectiveValue(AbstractInlineDirective.EVAL);
+		addDirectiveValue(AbstractUnsafeDirective.EVAL);
 		return this;
 	}
 
