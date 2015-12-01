@@ -24,7 +24,6 @@ import java.util.Map.Entry;
 import securityheaders.csp.directives.AbstractCSPDirective;
 import securityheaders.csp.directives.impl.ChildSrcDirective;
 import securityheaders.csp.directives.impl.ConnectSrcDirective;
-import securityheaders.csp.directives.impl.DefaultSrcDirective;
 import securityheaders.csp.directives.impl.FontSrcDirective;
 import securityheaders.csp.directives.impl.ImgSrcDirective;
 import securityheaders.csp.directives.impl.MediaSrcDirective;
@@ -40,6 +39,16 @@ import securityheaders.csp.directives.impl.StyleSrcDirective;
  * This protects the browser from a wide array of content injection 
  * vulnerabilities. The CSP is a "Defense-in-Depth" strategy component and 
  * should be used alongside other defenses, such as input validation.
+ * <br/><br/>
+ * Example:<br/>
+ * <code>
+ * ContentSecurityPolicy csp = new ContentSecurityPolicy();<br/>
+ * DefaultSrcDirective defaultDir = new DefaultSrcDirective().addSelf();<br/>
+ * ScriptSrcDirective scriptDir = new ScriptSrcDirective().addSelf().addUnsafeInline().addUnsafeEval();<br/>
+ * csp.addDirective(defaultDir).addDirective(scriptDir);<br/>
+ * csp.build();
+ * </code><br/>
+ * The build method would return default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'
  * 
  * @author Chris Smith
  *
@@ -97,9 +106,9 @@ public class ContentSecurityPolicy {
 			AbstractCSPDirective directive = entry.getValue();
 			directive.removeInternalDuplicates();
 		}
-		if (this.directiveMap.containsKey(DefaultSrcDirective.NAME)) {
-			removeDefaultDuplicates();
-		}
+
+		//TODO build default-src if all reliant directives have the same value
+		
 		removeEmptyDirectives();
 		
 		return this;
@@ -117,18 +126,6 @@ public class ContentSecurityPolicy {
 			if(directive.getDirectiveValues().size() == 0){
 				this.directiveMap.remove(directive);
 			}
-		}
-	}
-
-	/**
-	 * removes values from directives where the directive relies on default-src
-	 * and contains a duplicate value of that directive.
-	 */
-	private void removeDefaultDuplicates(){
-		DefaultSrcDirective defaultDir = (DefaultSrcDirective) this.directiveMap.get(DefaultSrcDirective.NAME);
-		for (int i = 0; i < ContentSecurityPolicy.RELY_ON_DEFAULT.length; i++) {
-			AbstractCSPDirective directive = this.directiveMap.get(ContentSecurityPolicy.RELY_ON_DEFAULT[i]);
-			directive.removeDuplicatesOf(defaultDir);
 		}
 	}
 

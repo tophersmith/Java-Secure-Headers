@@ -23,6 +23,21 @@ import javax.servlet.http.HttpServletResponse;
 import securityheaders.impl.AbstractHeader;
 import securityheaders.util.InvalidHeaderException;
 
+/**
+ * SecurityHeaders implements the following Security-related headers:
+ * <ul>
+ * <li>Content-Security-Policy</li>
+ * <li>Strict-Transport-Security</li>
+ * <li>X-Content-Type-Options</li>
+ * <li>X-Frame-Options</li>
+ * <li>X-XSS-Protection</li>
+ * </ul>
+ * It also manages adding the Headers to a Response object.
+ * 
+ * 
+ * @author Chris Smith
+ *
+ */
 public class SecurityHeaders {
 
 	private final List<AbstractHeader> headers;
@@ -32,11 +47,20 @@ public class SecurityHeaders {
 		this.headers = new ArrayList<AbstractHeader>();
 	}
 
+	/**
+	 * adds the given header to this object
+	 * @param header a Security Header
+	 * @return a reference to this object
+	 */
 	public SecurityHeaders addHeader(AbstractHeader header) {
 		this.headers.add(header);
 		return this;
 	}
 
+	/**
+	 * Validates each header according to its own validation requirements
+	 * @return a list of exceptions or null, if no exceptions occurred
+	 */
 	public List<String> validateAllHeaders() {
 		List<String> exceptions = null;
 		for (int i = 0; i < this.headers.size(); i++) {
@@ -53,6 +77,12 @@ public class SecurityHeaders {
 		return exceptions;
 	}
 
+	/**
+	 * Dispatch to each header to have it construct its own complete header line
+	 * <br/>
+	 * e.g. Header-Name: HeaderValue(s)
+	 * @return a list of Strings containing the full header line
+	 */
 	public List<String> buildHeaders() {
 		List<String> headers = new ArrayList<String>();
 		for (int i = 0; i < this.headers.size(); i++) {
@@ -68,7 +98,14 @@ public class SecurityHeaders {
 		return headers;
 	}
 
-	public void addHeadersToResponse(HttpServletResponse response, List<String> headersList)
+	/**
+	 * Given a ServletResponse and a List of header lines, add the supplied
+	 * headers to the supplied Response
+	 * @param response a response object to have headers attached 
+	 * @param headersList List of header lines
+	 * @throws InvalidHeaderException if a header does not have a key and value
+	 */
+	public static void addHeadersToResponse(HttpServletResponse response, List<String> headersList)
 			throws InvalidHeaderException {
 		for (int i = 0; i < headersList.size(); i++) {
 			String[] header = headersList.get(i).split(":");
@@ -79,6 +116,11 @@ public class SecurityHeaders {
 		}
 	}
 
+	/**
+	 * using the headers in this object, add the defined security headers to
+	 * the given response object
+	 * @param response a response object to have headers attached
+	 */
 	public void addHeadersToResponse(HttpServletResponse response) {
 		for (int i = 0; i < this.headers.size(); i++) {
 			AbstractHeader header = this.headers.get(i);
@@ -91,6 +133,13 @@ public class SecurityHeaders {
 		}
 	}
 
+	/**
+	 * Given a ServletResponse and a List of header lines, set the supplied
+	 * headers to the supplied Response
+	 * @param response a response object to have headers attached 
+	 * @param headersList List of header lines
+	 * @throws InvalidHeaderException if a header does not have a key and value
+	 */
 	public void setHeadersOnResponse(HttpServletResponse response, List<String> headersList)
 			throws InvalidHeaderException {
 		for (int i = 0; i < headersList.size(); i++) {
@@ -102,6 +151,11 @@ public class SecurityHeaders {
 		}
 	}
 
+	/**
+	 * using the headers in this object, set the defined security headers to
+	 * the given response object
+	 * @param response a response object to have headers attached
+	 */
 	public void setHeadersOnResponse(HttpServletResponse response) {
 		for (int i = 0; i < this.headers.size(); i++) {
 			AbstractHeader header = this.headers.get(i);
@@ -114,6 +168,10 @@ public class SecurityHeaders {
 		}
 	}
 
+	/**
+	 * a helper method to see if a given target character is in an array of 
+	 * characters
+	 */
 	private static boolean charContains(char target, Character... test) {
 		for (int i = 0; i < test.length; i++) {
 			if (test[i].equals(target)) {
@@ -123,6 +181,10 @@ public class SecurityHeaders {
 		return false;
 	}
 
+	/**
+	 * given a String and an array of characters to remove from the String,
+	 * return a String with the specified characters removed
+	 */
 	private static String remove(String text, Character... characters) {
 		StringBuilder sb = new StringBuilder(text.length());
 		for (int i = 0; i < text.length(); i++) {
@@ -134,6 +196,9 @@ public class SecurityHeaders {
 		return sb.toString();
 	}
 
+	/**
+	 * removes Illegal header characters from the supplied String data 
+	 */
 	private static String sanitizeHeaderData(String data) {
 		return remove(data, SecurityHeaders.ILLEGAL_CHARS);
 	}

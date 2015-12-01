@@ -1,8 +1,5 @@
-comments on:
-	securityheaders.*
-
 comments for buildHeaders/validate in securityheaders.impl
 
-ContentSecurityPolicy should have a comment example of how to use it.
+ContentSecurityPolicy //TODO build default-src if all reliant directives have the same value
 
 design a testing framework?
