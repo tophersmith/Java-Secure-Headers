@@ -113,7 +113,11 @@ public class XXSSProtectionHeader extends AbstractHeader {
 		}
 		return headerValue;
 	}
-
+	
+	/**
+	 * The report URL, if set, must be valid and if protection is enabled 
+	 * but block or reporting is set
+	 */
 	@Override
 	public void validate() throws InvalidHeaderException {
 		if(this.reportUrl != null){

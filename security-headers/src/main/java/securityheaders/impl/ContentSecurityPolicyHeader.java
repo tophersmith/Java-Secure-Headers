@@ -62,13 +62,13 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 	}
 
 	private static final String LINE_SEPERATOR = System.lineSeparator();
-	private boolean condense = false;
+	private boolean reduce = false;
 	private ContentSecurityPolicy csp = null;
 
 	/**
 	 * Constructs a new Content-Security-Policy Header object
 	 * <b>Does not</b> configure a CSP by default, and does not enable 
-	 * report-only mode, also does not condense
+	 * report-only mode, also does not reduce
 	 * @param headerName which CSPHeaderName type this should use 
 	 */
 	public ContentSecurityPolicyHeader(CSPHeaderName headerName) {
@@ -86,12 +86,12 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 	}
 
 	/**
-	 * Sets Content-Security-Policy to condense the policy
-	 * @param condense true if CSP should be minified
+	 * Sets Content-Security-Policy to reduce the policy
+	 * @param reduce true if CSP should be minified
 	 * @return a reference to this object
 	 */
-	public ContentSecurityPolicyHeader setCondensed(boolean condense) {
-		this.condense = condense;
+	public ContentSecurityPolicyHeader setReduce(boolean reduce) {
+		this.reduce = reduce;
 		return this;
 	}
 
@@ -109,16 +109,22 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 	public String buildHeaderValue() {
 		String value = null;
 		if (this.csp != null) {
-			if (this.condense) {
-				this.csp.compress();
+			if (this.reduce) {
+				this.csp.reduce();
 			}
 			value = this.csp.build();
 		}
 		return value;
 	}
 
+	/**
+	 * validation is dispatched to {@link ContentSecurityPolicy#isValid()}
+	 */
 	@Override
 	public void validate() throws InvalidHeaderException {
+		if(this.csp == null){
+			return;
+		}
 		this.csp.resetValidationReport();
 		if (!this.csp.isValid()) {
 			StringBuilder sb = new StringBuilder();
@@ -129,5 +135,25 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 			}
 			throw new InvalidHeaderException(sb.toString());
 		}
+	}
+	
+	/**
+	 * return all validation errors. Must have called validate already
+	 */
+	public List<String> getValidationErrors(){
+		if(this.csp != null){
+			return this.csp.getValidationErrorReports();
+		}
+		return null;
+	}
+	
+	/**
+	 * return all validation warnings. Must have called validate already
+	 */
+	public List<String> getValidationWarnings(){
+		if(this.csp != null){
+			return this.csp.getValidationWarningReports();
+		}
+		return null;
 	}
 }

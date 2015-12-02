@@ -22,14 +22,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import securityheaders.csp.directives.AbstractCSPDirective;
-import securityheaders.csp.directives.impl.ChildSrcDirective;
-import securityheaders.csp.directives.impl.ConnectSrcDirective;
-import securityheaders.csp.directives.impl.FontSrcDirective;
-import securityheaders.csp.directives.impl.ImgSrcDirective;
-import securityheaders.csp.directives.impl.MediaSrcDirective;
-import securityheaders.csp.directives.impl.ObjectSrcDirective;
-import securityheaders.csp.directives.impl.ScriptSrcDirective;
-import securityheaders.csp.directives.impl.StyleSrcDirective;
 
 /**
  * A Content Security Policy defines several directives that indicate from 
@@ -59,14 +51,6 @@ public class ContentSecurityPolicy {
 	private final CSPValidationReport validationReport;
 	private final PolicyLevel level;
 	
-	//array of all directives that fallback to the default-src list
-	private static final String[] RELY_ON_DEFAULT = { 
-			ChildSrcDirective.NAME,  ConnectSrcDirective.NAME,
-			FontSrcDirective.NAME, 	 ImgSrcDirective.NAME, 
-			MediaSrcDirective.NAME,  ObjectSrcDirective.NAME,
-			ScriptSrcDirective.NAME, StyleSrcDirective.NAME 
-			};
-
 	/**
 	 * Creates a new ContentSecurityPolicy with a PolicyLevel of CSPv2
 	 */
@@ -101,16 +85,12 @@ public class ContentSecurityPolicy {
 	 * may be lost
 	 * @return a reference to this object
 	 */
-	public ContentSecurityPolicy compress() {
+	public ContentSecurityPolicy reduce() {
 		for (Entry<String, AbstractCSPDirective> entry  : this.directiveMap.entrySet()) {
 			AbstractCSPDirective directive = entry.getValue();
 			directive.removeInternalDuplicates();
 		}
-
-		//TODO build default-src if all reliant directives have the same value
-		
 		removeEmptyDirectives();
-		
 		return this;
 	}
 	

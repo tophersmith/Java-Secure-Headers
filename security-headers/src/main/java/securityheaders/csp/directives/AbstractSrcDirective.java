@@ -34,8 +34,6 @@ public abstract class AbstractSrcDirective extends AbstractCSPDirective {
 	 * For this SrcDirective, ensure all values are 'none', *, or a source-list
 	 * value. 
 	 * @param report a validation report to hold any issues discovered
-	 * <br/> 
-	 * See: {@link AbstractCSPDirective#validateAndReport(CSPValidationReport)}
 	 */
 	@Override
 	public void validateAndReport(CSPValidationReport report) {

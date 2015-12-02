@@ -43,6 +43,9 @@ public class XContentTypeOptionsHeader extends AbstractHeader {
 		return XContentTypeOptionsHeader.NOSNIFF;
 	}
 
+	/**
+	 * Impossible to fail since there are no options to set
+	 */
 	@Override
 	public void validate() throws InvalidHeaderException {
 		// impossible to fail as the only value is nosniff and it is required

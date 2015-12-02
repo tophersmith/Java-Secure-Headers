@@ -89,7 +89,4 @@ public abstract class AbstractHeader {
 	 * @return a String representation of this header's value
 	 */
 	public abstract String buildHeaderValue();
-	
-	
-	//public abstract AbstractHeader buildRecommended();
 }

@@ -117,6 +117,9 @@ public class StrictTransportSecurityHeader extends AbstractHeader {
 		return sb.toString();
 	}
 
+	/**
+	 * max-age must be set and contain non-negative numbers
+	 */
 	@Override
 	public void validate() throws InvalidHeaderException {
 		if (this.maxAge == null || this.maxAge.isEmpty()) {

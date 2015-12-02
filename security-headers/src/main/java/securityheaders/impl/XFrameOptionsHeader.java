@@ -87,6 +87,9 @@ public class XFrameOptionsHeader extends AbstractHeader {
 		return headerValue;
 	}
 
+	/**
+	 * If Allow-From is used, a valid origin must also be set
+	 */
 	@Override
 	public void validate() throws InvalidHeaderException {
 		if (this.framingPolicy.equals(XFrameOptionsHeader.ALLOWFROM)){
