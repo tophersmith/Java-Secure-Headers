@@ -104,7 +104,7 @@ public class ContentSecurityPolicy {
 			String key = keyIter.next();
 			AbstractCSPDirective directive = this.directiveMap.get(key);
 			if(directive.getDirectiveValues().size() == 0){
-				this.directiveMap.remove(directive);
+				this.directiveMap.remove(directive.getDirectiveName());
 			}
 		}
 	}
