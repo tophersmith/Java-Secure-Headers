@@ -15,9 +15,6 @@
  */
 package topher.smith.security.headers.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import topher.smith.security.headers.util.InvalidHeaderException;
 
 /**
@@ -27,8 +24,7 @@ import topher.smith.security.headers.util.InvalidHeaderException;
  *
  */
 public abstract class AbstractHeader {
-	private final String primaryHeaderName;
-	private final List<String> headerNames;
+	private final String headerName;
 
 	/**
 	 * Base abstraction to set up header names
@@ -36,43 +32,15 @@ public abstract class AbstractHeader {
 	 * @param primaryName Required name of the header
 	 * @param altNames Optional name(s) of the header (e.g. for experimental headers)
 	 */
-	protected AbstractHeader(String primaryName, String... altNames) {
-		this.primaryHeaderName = primaryName;
-		if (altNames != null && altNames.length > 0) {
-			this.headerNames = new ArrayList<String>(altNames.length + 1);
-			for (int i = 0; i < altNames.length; i++) {
-				String altName = altNames[i];
-				if (altName != null) {
-					addHeaderName(altName);
-				}
-			}
-		} else {
-			this.headerNames = new ArrayList<String>(1);
-		}
-		addHeaderName(primaryName);
-	}
-
-	/**
-	 * add header name to list of headers
-	 */
-	private void addHeaderName(String name) {
-		if (!this.headerNames.contains(name)) {
-			this.headerNames.add(name);
-		}
+	protected AbstractHeader(String headerName) {
+		this.headerName = headerName;
 	}
 
 	/**
 	 * @return required header name
 	 */
-	public String getPrimaryHeaderName() {
-		return this.primaryHeaderName;
-	}
-
-	/**
-	 * @return all defined header names
-	 */
-	public List<String> getHeaderNames() {
-		return this.headerNames;
+	public String getHeaderName() {
+		return this.headerName;
 	}
 
 	/**

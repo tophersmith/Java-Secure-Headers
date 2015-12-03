@@ -73,7 +73,7 @@ public class StyleSrcDirective extends AbstractUnsafeDirective {
 	 * adds the value 'unsafe-inline' to the directive
 	 * @return a reference to this object
 	 */
-	public StyleSrcDirective addUnsafeInline(boolean allow) {
+	public StyleSrcDirective addUnsafeInline() {
 		addDirectiveValue(AbstractUnsafeDirective.INLINE);
 		return this;
 	}
@@ -82,7 +82,7 @@ public class StyleSrcDirective extends AbstractUnsafeDirective {
 	 * adds the value 'unsafe-eval' to the directive
 	 * @return a reference to this object
 	 */
-	public StyleSrcDirective addUnsafeEval(boolean allow) {
+	public StyleSrcDirective addUnsafeEval() {
 		addDirectiveValue(AbstractUnsafeDirective.EVAL);
 		return this;
 	}

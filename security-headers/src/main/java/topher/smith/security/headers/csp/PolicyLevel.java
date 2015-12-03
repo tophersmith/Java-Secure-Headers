@@ -64,21 +64,21 @@ public enum PolicyLevel{
 		 new String[]{FrameSrcDirective.NAME}),
 	;
 	
-	private final List<String> allowedNames;
+	private final List<String> definedNames;
 	private final List<String> deprecatedNames;
 	
-	private PolicyLevel(String[] allowedNames, String[] deprecatedNames){
-		this.allowedNames = Arrays.asList(allowedNames);
+	private PolicyLevel(String[] definedNames, String[] deprecatedNames){
+		this.definedNames = Arrays.asList(definedNames);
 		this.deprecatedNames = Arrays.asList(deprecatedNames);
 	}
 	
 	/**
-	 * is the given directive in the allowed array of directives
+	 * is the given directive defined for this policy level
 	 * @param directive the directive to check for 
-	 * @return true if the directive is an allowed directive
+	 * @return true if the directive is defined for this level
 	 */
-	boolean isAllowed(AbstractCSPDirective directive){
-		return this.allowedNames.contains(directive.getDirectiveName());
+	boolean isDefined(AbstractCSPDirective directive){
+		return this.definedNames.contains(directive.getDirectiveName());
 	}
 	
 	/**

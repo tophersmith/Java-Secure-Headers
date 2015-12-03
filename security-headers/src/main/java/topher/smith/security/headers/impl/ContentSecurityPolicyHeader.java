@@ -123,7 +123,7 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 	@Override
 	public void validate() throws InvalidHeaderException {
 		if(this.csp == null){
-			return;
+			throw new InvalidHeaderException("ContentSecurityPolicy must be set on the header");
 		}
 		this.csp.resetValidationReport();
 		if (!this.csp.isValid()) {

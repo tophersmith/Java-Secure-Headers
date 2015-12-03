@@ -15,11 +15,11 @@
  */
 package topher.smith.security.headers.csp;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import topher.smith.security.headers.csp.directives.AbstractCSPDirective;
 
@@ -63,7 +63,7 @@ public class ContentSecurityPolicy {
 	 * @param level a PolicyLevel to validate against
 	 */
 	public ContentSecurityPolicy(PolicyLevel level) {
-		this.directiveMap = new HashMap<String, AbstractCSPDirective>();
+		this.directiveMap = new ConcurrentHashMap<String, AbstractCSPDirective>();
 		this.validationReport = new CSPValidationReport();
 		this.level = level;
 	}
@@ -128,24 +128,16 @@ public class ContentSecurityPolicy {
 			String key = entry.getKey();
 			AbstractCSPDirective directive = entry.getValue();
 			directive.validateAndReport(this.validationReport);
-			if(!this.level.isAllowed(directive)){
+			if(!this.level.isDefined(directive)){
 				this.validationReport.addWarning(directive, this.level.name() + " does not define directive " + key);			
 			}
-			if(!this.level.isDeprecated(directive)){
+			if(this.level.isDeprecated(directive)){
 				this.validationReport.addWarning(directive, this.level.name() + " has deprecated directive " + key);
 			}
 		}
 		return this.validationReport.isErrorsEmpty();
 	}
 
-	/**
-	 * does the validation report contain warnings
-	 * @return true if there is at least one warning report
-	 */
-	public boolean hasWarnings(){
-		return this.validationReport.isWarningsEmpty();
-	}
-	
 	/**
 	 * get the list of errors attached to the validation report
 	 * @return a List of errors encountered during validation
@@ -169,9 +161,15 @@ public class ContentSecurityPolicy {
 	 */
 	public String build() {
 		StringBuilder sb = new StringBuilder();
+		boolean first = true;
 		for (Entry<String, AbstractCSPDirective> entry  : this.directiveMap.entrySet()) {
 			AbstractCSPDirective directive = entry.getValue();
-			sb.append(directive.buildDirective()).append("; ");
+			sb.append(directive.buildDirective());
+			if(first){
+				first = false;
+			} else{
+				sb.append("; ");
+			}
 		}
 		return sb.toString();
 	}

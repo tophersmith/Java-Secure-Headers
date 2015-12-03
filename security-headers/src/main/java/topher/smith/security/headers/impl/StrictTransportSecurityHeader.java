@@ -44,18 +44,20 @@ public class StrictTransportSecurityHeader extends AbstractHeader {
 	}
 
 	private static boolean containsOnlyPositiveDigits(String str) {
+		boolean correct = false;
 		// empty/null strings have no digits
-		if (str == null || (str != null && !str.isEmpty())) {
-			return false;
-		}
-		char[] charArr = str.toCharArray();
-		for (int i = 0; i < charArr.length; i++) {
-			char c = charArr[i];
-			if (!Character.isDigit(c)) {
-				return false;
+		if (str != null && !str.isEmpty()) {
+			correct = true;
+			char[] charArr = str.toCharArray();
+			for (int i = 0; i < charArr.length; i++) {
+				char c = charArr[i];
+				if (!Character.isDigit(c)) {
+					correct = false;
+					break;
+				}
 			}
 		}
-		return true;
+		return correct;
 	}
 
 	/**

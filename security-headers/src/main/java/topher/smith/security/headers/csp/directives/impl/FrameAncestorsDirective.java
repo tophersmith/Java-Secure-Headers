@@ -76,7 +76,8 @@ public class FrameAncestorsDirective extends AbstractCSPDirective {
 			val = val.trim().toLowerCase();
 			if (!val.equals(AbstractCSPDirective.SRC_KEY_NONE) && 
 					!val.equals(AbstractCSPDirective.SRC_KEY_SELF) &&
-					!isHostSource(val) && !isSchemeSource(val)) {
+					!isHostSource(val) && 
+					!isSchemeSource(val)) {
 				report.addError(this, "Ancestor Source " + val + 
 						" is not one of host-source, scheme-source, 'self', or 'none'");
 			}

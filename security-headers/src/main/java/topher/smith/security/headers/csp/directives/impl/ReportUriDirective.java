@@ -15,8 +15,7 @@
  */
 package topher.smith.security.headers.csp.directives.impl;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import topher.smith.security.headers.csp.CSPValidationReport;
 import topher.smith.security.headers.csp.directives.AbstractCSPDirective;
@@ -57,9 +56,7 @@ public class ReportUriDirective extends AbstractCSPDirective {
 	public void validateAndReport(CSPValidationReport report) {
 		for (int i = 0; i < this.directiveValues.size(); i++) {
 			String val = this.directiveValues.get(i);
-			try {
-				new URI(val);
-			} catch (URISyntaxException e) {
+			if(!UrlValidator.getInstance().isValid(val)){
 				report.addError(this, "Value " + val + " could not be parsed into a URI");
 			}
 		}

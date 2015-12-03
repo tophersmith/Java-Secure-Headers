@@ -15,8 +15,7 @@
  */
 package topher.smith.security.headers.impl;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import topher.smith.security.headers.util.InvalidHeaderException;
 
@@ -36,6 +35,7 @@ public class XFrameOptionsHeader extends AbstractHeader {
 
 	private String framingPolicy = XFrameOptionsHeader.SAMEORIGIN;
 	private String origin = null;
+	private final UrlValidator validator = new UrlValidator(new String[]{"http", "https"});
 
 	/**
 	 * Constructs a new X-Frame-Options Header object
@@ -93,9 +93,7 @@ public class XFrameOptionsHeader extends AbstractHeader {
 	@Override
 	public void validate() throws InvalidHeaderException {
 		if (this.framingPolicy.equals(XFrameOptionsHeader.ALLOWFROM)){
-			try {
-				new URL(this.origin);
-			} catch (MalformedURLException e) {
+			if(!this.validator.isValid(this.origin)){
 				throw new InvalidHeaderException("When using Allow-From, a valid origin must be set");
 			}
 		}

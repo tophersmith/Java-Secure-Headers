@@ -17,7 +17,6 @@ package topher.smith.security.headers.csp.directives;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,7 +59,7 @@ public abstract class AbstractCSPDirective {
 	
 	//host-source definition
 	private static final Pattern HOST_SOURCE = Pattern.compile("^" + // match start of string
-							"(" + AbstractCSPDirective.SCHEME_PART + "://)?" + // scheme-part is optional
+							"(" + AbstractCSPDirective.SCHEME_PART + ":\\/\\/)?" + // scheme-part is optional
 							"(" + AbstractCSPDirective.HOST_PART + ")" + // host-part is required
 							"(" + AbstractCSPDirective.PORT_PART + ")?" + // port-part is optional
 							"(" + AbstractCSPDirective.PATH_PART + ")?" + // path-part is optional
@@ -109,8 +108,11 @@ public abstract class AbstractCSPDirective {
 			}
 		}
 
-		if (!test.equals(AbstractCSPDirective.SRC_KEY_SELF) && !test.equals(AbstractCSPDirective.SRC_KEY_NONE)
-				&& !isValidKeyword(test, report) && !isSchemeSource(test) && !isHostSource(test)) {
+		if (!test.equals(AbstractCSPDirective.SRC_KEY_SELF) && 
+				!test.equals(AbstractCSPDirective.SRC_KEY_NONE) && 
+				!isValidKeyword(test, report) && 
+				!isSchemeSource(test) && 
+				!isHostSource(test)) {
 			report.addError(this, "Source value " + val + " could not be validated");
 		}
 	}
@@ -184,23 +186,6 @@ public abstract class AbstractCSPDirective {
 		Set<String> deduped = new LinkedHashSet<String>(this.directiveValues);
 		this.directiveValues.clear();
 		this.directiveValues.addAll(deduped);
-	}
-
-	/**
-	 * Scan the provided directive. If this directive contains a value that 
-	 * matches in the provided, remove the value from this directive's list
-	 * 
-	 * @param other the directive to compare against 
-	 */
-	public void removeDuplicatesOf(AbstractCSPDirective other) {
-		Iterator<String> thisIt = this.directiveValues.iterator();
-		List<String> otherVals = other.getDirectiveValues();
-		while(thisIt.hasNext()){
-			String value = thisIt.next();
-			if(otherVals.contains(value)){
-				thisIt.remove();
-			}
-		}
 	}
 
 	/**

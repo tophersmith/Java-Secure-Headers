@@ -49,14 +49,5 @@ public abstract class AbstractSrcDirective extends AbstractCSPDirective {
 			String val = this.directiveValues.get(i);
 			validateSourceListValue(val, report);
 		}
-		validateAdditional(report);
-	}
-
-	/**
-	 * validate this csp in any additional ways necessary
-	 * @param report a validation report to hold any issues discovered
-	 */
-	protected void validateAdditional(CSPValidationReport report) {
-		//left for Overridding
 	}
 }

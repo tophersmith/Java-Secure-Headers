@@ -98,6 +98,8 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	public static String generateNonce(int size) {
 		return SecureRandomUtil.generateRandomString(AbstractUnsafeDirective.NONCE_CHARSET, size);
 	}
+	
+	
 
 	/**
 	 * removes all nonces from this directive
@@ -114,14 +116,8 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	 */
 	@Override
 	protected boolean isValidKeyword(String val, CSPValidationReport report) {
-		boolean valid = val.equals(AbstractCSPDirective.SRC_UNSAFE_EVAL) || val.equals(AbstractCSPDirective.SRC_UNSAFE_INLINE);
-		if(!valid){
-			valid = val.startsWith(AbstractUnsafeDirective.QUOTE + AbstractUnsafeDirective.NONCE_PREFIX);
-		}
-		if(!valid){
-			valid = isHash(val, report);
-		}
-		return valid;
+		return val.equals(AbstractCSPDirective.SRC_UNSAFE_EVAL) || 
+				val.equals(AbstractCSPDirective.SRC_UNSAFE_INLINE);
 	}
 	
 	/**
@@ -130,13 +126,13 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	 * @param report a validation report to hold any issues discovered 
 	 * @return true if val starts with a valid hashtype
 	 */
-	protected boolean isHash(String val, CSPValidationReport report) {
-		boolean allOK = false;
+	protected void validateHashes(CSPValidationReport report) {
 		for (int j = 0; j < this.hashes.size(); j++) {
 			boolean valid = false;
 			String hash = this.hashes.get(j);
 			for (int i = 0; i < AbstractUnsafeDirective.ALLOWED_HASH_ALGO.length; i++) {
-				if (hash.startsWith(AbstractUnsafeDirective.ALLOWED_HASH_ALGO[i])) {
+				if (hash.startsWith(AbstractUnsafeDirective.QUOTE + 
+						AbstractUnsafeDirective.ALLOWED_HASH_ALGO[i])) {
 					valid = true;
 					break;
 				}
@@ -144,11 +140,9 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 			if (!valid) {
 				report.addError(this, "Hash algorithm " + hash + " not allowed");
 			}
-			allOK = allOK && valid;
 		}
-		return allOK;
 	}
-
+	
 	/**
 	 * builds the nonce and hash values if set
 	 * @return a string containing all nonces and hashes, or empty
@@ -163,5 +157,17 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 			sb.append(this.hashes.get(i)).append(" ");
 		}
 		return sb.toString();
+	}
+	
+	
+	@Override
+	public void validateAndReport(CSPValidationReport report) {
+		super.validateAndReport(report);
+		validateHashes(report);
+		/*
+		 * nonces need not be validated as they are always of 
+		 * the same form and the value can technically be any
+		 * string, not just a generated one 
+		 */
 	}
 }

@@ -15,8 +15,7 @@
  */
 package topher.smith.security.headers.impl;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import topher.smith.security.headers.util.InvalidHeaderException;
 
@@ -29,7 +28,7 @@ import topher.smith.security.headers.util.InvalidHeaderException;
  *
  */
 public class XXSSProtectionHeader extends AbstractHeader {
-	private static final String PRIMARY_HEADER_NAME = "X-Frame-Options";
+	private static final String PRIMARY_HEADER_NAME = "X-XSS-Protection";
 	private static final String PROTECTION_ON = "1";
 	private static final String PROTECTION_OFF = "0";
 	private static final String BLOCK = "mode=block";
@@ -38,6 +37,7 @@ public class XXSSProtectionHeader extends AbstractHeader {
 	private boolean protection = true;
 	private boolean block = true;
 	private String reportUrl = null;
+	private final UrlValidator validator = new UrlValidator(new String[]{"http", "https"});
 	
 	/**
 	 * Constructs a new X-XSS-Protection Header object
@@ -105,7 +105,7 @@ public class XXSSProtectionHeader extends AbstractHeader {
 				sb.append("; ").append(XXSSProtectionHeader.BLOCK);
 			}
 			if (this.reportUrl != null){
-				sb.append(": ").append(XXSSProtectionHeader.REPORT).append(this.reportUrl);
+				sb.append("; ").append(XXSSProtectionHeader.REPORT).append(this.reportUrl);
 			}
 			headerValue = sb.toString();
 		} else {
@@ -121,11 +121,9 @@ public class XXSSProtectionHeader extends AbstractHeader {
 	@Override
 	public void validate() throws InvalidHeaderException {
 		if(this.reportUrl != null){
-			try {
-				new URL(this.reportUrl);
-			} catch (MalformedURLException e) {
-				throw new InvalidHeaderException("Report url is not a valid URL");
-			}
+				if(!this.validator.isValid(this.reportUrl)){
+					throw new InvalidHeaderException("Report url is not a valid URL");
+				}
 		}
 		if (!this.protection) {
 			if(this.block){
