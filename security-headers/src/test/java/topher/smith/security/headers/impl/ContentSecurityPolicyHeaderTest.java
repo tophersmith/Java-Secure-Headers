@@ -20,7 +20,7 @@ public class ContentSecurityPolicyHeaderTest {
 
 	private final String badSource = "http:/foobar.com";
 	private final String source = "http://foobar.com";
-	
+
 	@Test
 	public void testHeaderNames(){
 		CSPHeaderName[] names = CSPHeaderName.values();
@@ -33,7 +33,7 @@ public class ContentSecurityPolicyHeaderTest {
 			assertEquals(null, names[i].getReportName(), csp.getHeaderName());
 		}
 	}
-	
+
 	@Test
 	public void testValidateBasic() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
@@ -46,7 +46,7 @@ public class ContentSecurityPolicyHeaderTest {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testValidateInvalid() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
@@ -60,7 +60,7 @@ public class ContentSecurityPolicyHeaderTest {
 			assertTrue(csp.getValidationErrors().size() == 1);
 		}
 	}
-	
+
 	@Test
 	public void testValidateInvalidPolicyLevels() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
@@ -83,7 +83,7 @@ public class ContentSecurityPolicyHeaderTest {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testWarnings() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
@@ -97,7 +97,7 @@ public class ContentSecurityPolicyHeaderTest {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testNullPolicy() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
@@ -109,8 +109,30 @@ public class ContentSecurityPolicyHeaderTest {
 		assertEquals(null, null, csp.getValidationErrors());
 		assertEquals(null, null, csp.getValidationWarnings());
 		assertEquals(null, null, csp.buildHeaderValue());
-}
+	}
 
+	@Test
+	public void testCSPHeaderNames(){
+		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
+		ContentSecurityPolicyHeader webkit = new ContentSecurityPolicyHeader(CSPHeaderName.WEBKIT);
+		ContentSecurityPolicyHeader xcsp = new ContentSecurityPolicyHeader(CSPHeaderName.XCSP);
+		ContentSecurityPolicy policy = new ContentSecurityPolicy();
+		policy.addDirective(new DefaultSrcDirective().addSelf().addSource(this.source ));
+		csp.setPolicy(policy);
+		webkit.setPolicy(policy);
+		xcsp.setPolicy(policy);
+		assertEquals(csp.buildHeaderValue(), webkit.buildHeaderValue());
+		assertEquals(webkit.buildHeaderValue(), xcsp.buildHeaderValue());
+		
+		ContentSecurityPolicyHeader csprep = new ContentSecurityPolicyHeader(CSPHeaderName.CSP, true);
+		ContentSecurityPolicyHeader webkitrep = new ContentSecurityPolicyHeader(CSPHeaderName.WEBKIT, true);
+		ContentSecurityPolicyHeader xcsprep = new ContentSecurityPolicyHeader(CSPHeaderName.XCSP, true);
+		
+		assertEquals(csp.getHeaderName()+"-Report-Only", csprep.getHeaderName());
+		assertEquals(webkit.getHeaderName()+"-Report-Only", webkitrep.getHeaderName());
+		assertEquals(xcsp.getHeaderName()+"-Report-Only", xcsprep.getHeaderName());
+	}
+	
 	@Test
 	public void testBuildHeaderValue() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
@@ -119,7 +141,7 @@ public class ContentSecurityPolicyHeaderTest {
 		csp.setPolicy(policy);
 		assertEquals(null, "default-src 'self' " + this.source, csp.buildHeaderValue());
 	}
-	
+
 	@Test
 	public void testBuildHeaderValueNoReduce() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
@@ -128,7 +150,7 @@ public class ContentSecurityPolicyHeaderTest {
 		csp.setPolicy(policy);
 		assertEquals(null, "default-src 'self' 'self'", csp.buildHeaderValue());
 	}
-	
+
 	@Test
 	public void testBuildHeaderValueReduce() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
@@ -139,7 +161,7 @@ public class ContentSecurityPolicyHeaderTest {
 		csp.setReduce(true);
 		assertEquals(null, "default-src 'self' 'none'", csp.buildHeaderValue());
 	}
-	
+
 	@Test
 	public void testBuildHeaderValueReduceSanityCheck() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
