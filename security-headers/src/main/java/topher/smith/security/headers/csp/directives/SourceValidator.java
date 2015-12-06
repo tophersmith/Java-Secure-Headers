@@ -14,7 +14,7 @@ public class SourceValidator{
 	public static final String SRC_UNSAFE_EVAL = "'unsafe-eval'";
 	
 	//these characters may not exist in any directive value
-	public static final String[] ILLEGAL_SRC_CHARS = { " ", ";", "," };
+	static final String[] ILLEGAL_SRC_CHARS = { " ", ";", "," };
 
 	private static final int PORT_MAX = 65535;
 	private static final int PORT_MIN = 0;

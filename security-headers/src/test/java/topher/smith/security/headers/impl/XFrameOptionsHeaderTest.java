@@ -9,8 +9,8 @@ import org.junit.Test;
 import topher.smith.security.headers.util.InvalidHeaderException;
 
 public class XFrameOptionsHeaderTest {
-	private final String reportURL = "http://foo.com";
-	private final String badReportURL = "http:/foo.com";
+	private final static String reportURL = "http://foo.com";
+	private final static String badReportURL = "http:/foo.com";
 
 	@Test
 	public void testValidateFullCorrect() {
@@ -27,7 +27,7 @@ public class XFrameOptionsHeaderTest {
 		} catch (InvalidHeaderException e) {
 			fail(e.getMessage());
 		}
-		xf.setAllowFrom(this.reportURL);
+		xf.setAllowFrom(XFrameOptionsHeaderTest.reportURL);
 		try {
 			xf.validate();
 		} catch (InvalidHeaderException e) {
@@ -48,7 +48,7 @@ public class XFrameOptionsHeaderTest {
 	@Test
 	public void testValidateBadURL() {
 		XFrameOptionsHeader xf = new XFrameOptionsHeader();
-		xf.setAllowFrom(this.badReportURL);
+		xf.setAllowFrom(XFrameOptionsHeaderTest.badReportURL);
 		try {
 			xf.validate();
 		} catch (InvalidHeaderException e) {
@@ -63,8 +63,8 @@ public class XFrameOptionsHeaderTest {
 		XFrameOptionsHeader xf = new XFrameOptionsHeader();
 		xf.setDeny();
 		assertEquals(null, xf.buildHeaderValue(), "DENY");
-		xf.setAllowFrom(this.reportURL);
-		assertEquals(null, xf.buildHeaderValue(), "ALLOW-FROM " + this.reportURL);
+		xf.setAllowFrom(XFrameOptionsHeaderTest.reportURL);
+		assertEquals(null, xf.buildHeaderValue(), "ALLOW-FROM " + XFrameOptionsHeaderTest.reportURL);
 	}
 	
 	@Test

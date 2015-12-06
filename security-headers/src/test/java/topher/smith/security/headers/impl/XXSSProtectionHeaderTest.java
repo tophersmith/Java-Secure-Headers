@@ -9,8 +9,8 @@ import org.junit.Test;
 import topher.smith.security.headers.util.InvalidHeaderException;
 
 public class XXSSProtectionHeaderTest {
-	private final String reportURL = "http://foo.com";
-	private final String badReportURL = "http:/foo.com";
+	private final static String reportURL = "http://foo.com";
+	private final static String badReportURL = "http:/foo.com";
 	
 	@Test
 	public void testValidateStandard() {
@@ -25,7 +25,7 @@ public class XXSSProtectionHeaderTest {
 	@Test
 	public void testValidateFullCorrect() {
 		XXSSProtectionHeader xss = new XXSSProtectionHeader();
-		xss.enableBlock().enableProtection().addReportURL(this.reportURL);
+		xss.enableBlock().enableProtection().addReportURL(XXSSProtectionHeaderTest.reportURL);
 		try {
 			xss.validate();
 		} catch (InvalidHeaderException e) {
@@ -36,7 +36,7 @@ public class XXSSProtectionHeaderTest {
 	@Test
 	public void testValidateBadURL() {
 		XXSSProtectionHeader xss = new XXSSProtectionHeader();
-		xss.enableBlock().enableProtection().addReportURL(this.badReportURL);
+		xss.enableBlock().enableProtection().addReportURL(XXSSProtectionHeaderTest.badReportURL);
 		try {
 			xss.validate();
 		} catch (InvalidHeaderException e) {
@@ -58,7 +58,7 @@ public class XXSSProtectionHeaderTest {
 	@Test
 	public void testValidatBadProtectionReport() {
 		XXSSProtectionHeader xss = new XXSSProtectionHeader();
-		xss.enableBlock().disableProtection().disableBlock().addReportURL(this.reportURL);
+		xss.enableBlock().disableProtection().disableBlock().addReportURL(XXSSProtectionHeaderTest.reportURL);
 		try {
 			xss.validate();
 		} catch (InvalidHeaderException e) {
@@ -100,8 +100,8 @@ public class XXSSProtectionHeaderTest {
 	@Test
 	public void testBuildHeaderFullCorrect() {
 		XXSSProtectionHeader xss = new XXSSProtectionHeader();
-		xss.enableBlock().enableProtection().addReportURL(this.reportURL);
-		assertEquals(null, xss.buildHeaderValue(),"1; mode=block; report="+this.reportURL);
+		xss.enableBlock().enableProtection().addReportURL(XXSSProtectionHeaderTest.reportURL);
+		assertEquals(null, xss.buildHeaderValue(),"1; mode=block; report="+XXSSProtectionHeaderTest.reportURL);
 	}
 
 }

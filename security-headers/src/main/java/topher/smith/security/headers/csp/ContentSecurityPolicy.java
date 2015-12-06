@@ -99,10 +99,10 @@ public class ContentSecurityPolicy {
 	 * them from this policy
 	 */
 	private void removeEmptyDirectives() {
-		Iterator<String> keyIter = this.directiveMap.keySet().iterator();
-		while (keyIter.hasNext()) {
-			String key = keyIter.next();
-			AbstractCSPDirective directive = this.directiveMap.get(key);
+		Iterator<Entry<String,AbstractCSPDirective>> iter = this.directiveMap.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String,AbstractCSPDirective> entry = iter.next();
+			AbstractCSPDirective directive = entry.getValue();
 			if(directive.getDirectiveValues().size() == 0){
 				this.directiveMap.remove(directive.getDirectiveName());
 			}

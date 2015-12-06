@@ -29,7 +29,7 @@ import topher.smith.security.headers.csp.directives.impl.StyleSrcDirective;
 public class DirectivesTest {
 	private final List<String> goodSource = new ArrayList<String>();
 	private final List<String> badSource = new ArrayList<String>();
-	private final String basicSource = "http://www.foo.com";
+	private static final String basicSource = "http://www.foo.com";
 	
 	@Before
 	public void setUp() throws Exception {
@@ -264,10 +264,10 @@ public class DirectivesTest {
 	public void testReportUri() {
 		String name = "report-uri";
 		ReportUriDirective dir = new ReportUriDirective();
-		dir.addReportUri(this.basicSource);
-		directiveTest(dir, name, 1, false, this.basicSource);
+		dir.addReportUri(basicSource);
+		directiveTest(dir, name, 1, false, basicSource);
 		dir.addReportUri(this.badSource.get(0));
-		directiveTest(dir, name, 2, true, this.basicSource);
+		directiveTest(dir, name, 2, true, basicSource);
 	}
 	
 	@Test

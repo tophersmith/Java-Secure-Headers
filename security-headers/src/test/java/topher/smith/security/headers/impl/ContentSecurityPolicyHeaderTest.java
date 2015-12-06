@@ -18,8 +18,8 @@ import topher.smith.security.headers.util.InvalidHeaderException;
 
 public class ContentSecurityPolicyHeaderTest {
 
-	private final String badSource = "http:/foobar.com";
-	private final String source = "http://foobar.com";
+	private final static String badSource = "http:/foobar.com";
+	private final static String source = "http://foobar.com";
 
 	@Test
 	public void testHeaderNames(){
@@ -51,12 +51,12 @@ public class ContentSecurityPolicyHeaderTest {
 	public void testValidateInvalid() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
 		ContentSecurityPolicy policy = new ContentSecurityPolicy();
-		policy.addDirective(new DefaultSrcDirective().addSource(this.badSource));
+		policy.addDirective(new DefaultSrcDirective().addSource(ContentSecurityPolicyHeaderTest.badSource));
 		csp.setPolicy(policy);
 		try {
 			csp.validate();
 		} catch (InvalidHeaderException e) {
-			assertTrue(e.getMessage().contains("Source value " + this.badSource + " could not be validated"));
+			assertTrue(e.getMessage().contains("Source value " + ContentSecurityPolicyHeaderTest.badSource + " could not be validated"));
 			assertTrue(csp.getValidationErrors().size() == 1);
 		}
 	}
@@ -117,7 +117,7 @@ public class ContentSecurityPolicyHeaderTest {
 		ContentSecurityPolicyHeader webkit = new ContentSecurityPolicyHeader(CSPHeaderName.WEBKIT);
 		ContentSecurityPolicyHeader xcsp = new ContentSecurityPolicyHeader(CSPHeaderName.XCSP);
 		ContentSecurityPolicy policy = new ContentSecurityPolicy();
-		policy.addDirective(new DefaultSrcDirective().addSelf().addSource(this.source ));
+		policy.addDirective(new DefaultSrcDirective().addSelf().addSource(ContentSecurityPolicyHeaderTest.source ));
 		csp.setPolicy(policy);
 		webkit.setPolicy(policy);
 		xcsp.setPolicy(policy);
@@ -137,9 +137,9 @@ public class ContentSecurityPolicyHeaderTest {
 	public void testBuildHeaderValue() {
 		ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
 		ContentSecurityPolicy policy = new ContentSecurityPolicy();
-		policy.addDirective(new DefaultSrcDirective().addSelf().addSource(this.source ));
+		policy.addDirective(new DefaultSrcDirective().addSelf().addSource(ContentSecurityPolicyHeaderTest.source ));
 		csp.setPolicy(policy);
-		assertEquals(null, "default-src 'self' " + this.source, csp.buildHeaderValue());
+		assertEquals(null, "default-src 'self' " + ContentSecurityPolicyHeaderTest.source, csp.buildHeaderValue());
 	}
 
 	@Test
