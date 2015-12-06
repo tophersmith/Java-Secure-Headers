@@ -3,6 +3,7 @@ package topher.smith.security.headers.csp.directives;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.validator.routines.UrlValidator;
 import org.junit.Test;
 
 public class SourceValidatorTest {
@@ -21,7 +22,7 @@ public class SourceValidatorTest {
 	
 	@Test
 	public void testValidHost() {
-		String[] positiveTests = new String[]{"*", "http://foo.com/bar.html", 
+		String[] positiveTests = new String[]{"http://foo.com/bar.html", 
 				"http://foo.com/bar", "https://*.foo.com", 
 				"http://111.12.32.132", "129.31.232.132"};
 		String[] negativeTests = new String[]{"http:\\\\foo.com\\bar", 
@@ -51,8 +52,8 @@ public class SourceValidatorTest {
 	
 	@Test
 	public void testValidKeywords() {
-		String[] positiveTests = new String[]{"*", "'none'", "'self'"};
-		String[] negativeTests = new String[]{"foo", null, "'no'"};
+		String[] positiveTests = new String[]{ "'none'", "'self'"};
+		String[] negativeTests = new String[]{"*", "foo", null, "'no'"};
 		for(String value : positiveTests){
 			assertTrue(value + "failed", SourceValidator.isValidSrcKeyword(value));
 		}
@@ -71,5 +72,10 @@ public class SourceValidatorTest {
 		for(String value : negativeTests){
 			assertFalse(value + "failed", SourceValidator.isValidUnsafeKeyword(value));
 		}
+	}
+	
+	@Test
+	public void test(){
+		UrlValidator.getInstance().isValid("http://foo.com:32/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/?a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/a/aX");
 	}
 }

@@ -1,4 +1,1 @@
-Remove AbstractCSPDirective's ReDOS 
-the ReDOS also doesn't find paths correctly. (add back in DirectivesTest goodSource)
-
 check assertEquals for correct order

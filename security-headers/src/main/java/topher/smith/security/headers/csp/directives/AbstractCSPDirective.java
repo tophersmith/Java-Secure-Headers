@@ -16,6 +16,7 @@
 package topher.smith.security.headers.csp.directives;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -70,7 +71,7 @@ public abstract class AbstractCSPDirective {
 		String test = val.trim().toLowerCase();
 
 		if(!SourceValidator.hasValidCharacters(test)){
-			report.addError(this, "Source value " + val + " contains an illegal character: " + SourceValidator.ILLEGAL_SRC_CHARS);
+			report.addError(this, "Source value " + val + " contains an illegal character: " + Arrays.toString(SourceValidator.ILLEGAL_SRC_CHARS));
 			return;
 		}
 		

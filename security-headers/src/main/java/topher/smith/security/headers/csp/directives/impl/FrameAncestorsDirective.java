@@ -75,8 +75,7 @@ public class FrameAncestorsDirective extends AbstractCSPDirective {
 		for (int i = 0; i < this.directiveValues.size(); i++) {
 			String val = this.directiveValues.get(i);
 			val = val.trim().toLowerCase();
-			if (!val.equals(SourceValidator.SRC_KEY_NONE) && 
-					!val.equals(SourceValidator.SRC_KEY_SELF) &&
+			if (!SourceValidator.isValidSrcKeyword(val) &&
 					!SourceValidator.isValidHostSource(val) && 
 					!SourceValidator.isValidSchemeSource(val)) {
 				report.addError(this, "Ancestor Source " + val + 

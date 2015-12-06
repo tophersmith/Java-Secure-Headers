@@ -20,16 +20,17 @@ public class SourceValidator{
 	private static final int PORT_MIN = 0;
 
 	// 1 letter plus optional letters, digits, +, -, or .
-	private static final String SCHEME_PART = "[a-zA-Z]{1}(?:[\\w\\+\\-\\.])*";
+	private static final String SCHEME_PART = "[a-zA-Z]{1}(?:[a-zA-Z0-9\\+\\-\\.])*";
 
 	// * OR Optional *. plus 1 or more letters/digits plus optional . plus 1 or more letters/digits
-	private static final String HOST_PART = "(?:[*])|(?:(?:\\*\\.)?[\\w]{1}(?:[\\.]?[\\w])+)";
+	private static final String HOST_PART = "(?:[*])|(?:(?:\\*\\.)?[A-Za-z0-9\\-]{1}(?:[\\.]?[A-Za-z0-9\\-])*)";
 
 	// : followed by either 1 or more digits or *
 	private static final String PORT_PART = ":(?:[\\d]+|\\*)";
 
 	// a slash optionally followed by a non-slash character followed by any characters
-	private static final String PATH_PART = "(?:\\/[^?#]*)+";
+	//private static final String PATH_PART = "(?:\\/[^?#]*)+";
+	private static final String PATH_PART = "(?:\\/[-\\w:@&?=+,.!/~*'%$_;\\(\\)]*)";
 
 	//host-source definition
 	private static final Pattern HOST_SOURCE = Pattern.compile("^" + // match start of string
@@ -59,8 +60,7 @@ public class SourceValidator{
 	public static boolean isValidSrcKeyword(String value){
 		return  value != null && 
 				( value.equals(SRC_KEY_SELF) || 
-				  value.equals(SRC_KEY_NONE) || 
-				  value.equals(SRC_WILDCARD) );
+				  value.equals(SRC_KEY_NONE) );
 	}
 	
 	
