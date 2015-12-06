@@ -38,9 +38,6 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	private static final String[] NONCE_CHARSET = 
 			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");
 
-	protected static final String INLINE = "'unsafe-inline'";
-	protected static final String EVAL = "'unsafe-eval'";
-
 	private static final String NONCE_PREFIX = "nonce";
 	private static final String QUOTE = "'";
 	private static final String SEPARATOR = "-";
@@ -115,9 +112,8 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	 * @return true if val is one of 'unsafe-eval' 'unsafe-inline' or starts with 'nonce
 	 */
 	@Override
-	protected boolean isValidKeyword(String val, CSPValidationReport report) {
-		return val.equals(AbstractCSPDirective.SRC_UNSAFE_EVAL) || 
-				val.equals(AbstractCSPDirective.SRC_UNSAFE_INLINE);
+	protected boolean isValidKeyword(String val) {
+		return super.isValidKeyword(val) || SourceValidator.isValidUnsafeKeyword(val);
 	}
 	
 	/**

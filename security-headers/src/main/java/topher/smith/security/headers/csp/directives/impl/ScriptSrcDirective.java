@@ -15,8 +15,8 @@
  */
 package topher.smith.security.headers.csp.directives.impl;
 
-import topher.smith.security.headers.csp.directives.AbstractCSPDirective;
 import topher.smith.security.headers.csp.directives.AbstractUnsafeDirective;
+import topher.smith.security.headers.csp.directives.SourceValidator;
 
 /**
  * From 
@@ -47,7 +47,7 @@ public class ScriptSrcDirective extends AbstractUnsafeDirective {
 	 * @return a reference to this object
 	 */
 	public ScriptSrcDirective addNone() {
-		addDirectiveValue(AbstractCSPDirective.SRC_KEY_NONE);
+		addDirectiveValue(SourceValidator.SRC_KEY_NONE);
 		return this;
 	}
 
@@ -56,7 +56,7 @@ public class ScriptSrcDirective extends AbstractUnsafeDirective {
 	 * @return a reference to this object
 	 */
 	public ScriptSrcDirective addSelf() {
-		addDirectiveValue(AbstractCSPDirective.SRC_KEY_SELF);
+		addDirectiveValue(SourceValidator.SRC_KEY_SELF);
 		return this;
 	}
 
@@ -75,7 +75,7 @@ public class ScriptSrcDirective extends AbstractUnsafeDirective {
 	 * @return a reference to this object
 	 */
 	public ScriptSrcDirective addUnsafeInline() {
-		addDirectiveValue(AbstractUnsafeDirective.INLINE);
+		addDirectiveValue(SourceValidator.SRC_UNSAFE_INLINE);
 		return this;
 	}
 
@@ -84,7 +84,7 @@ public class ScriptSrcDirective extends AbstractUnsafeDirective {
 	 * @return a reference to this object
 	 */
 	public ScriptSrcDirective addUnsafeEval() {
-		addDirectiveValue(AbstractUnsafeDirective.EVAL);
+		addDirectiveValue(SourceValidator.SRC_UNSAFE_EVAL);
 		return this;
 	}
 

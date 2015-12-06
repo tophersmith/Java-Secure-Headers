@@ -35,9 +35,12 @@ public class DirectivesTest {
 	public void setUp() throws Exception {
 		this.goodSource.add("http:");
 		this.goodSource.add("*");
-		//this.goodSource.add("http://foo.com/bar.html");
+		this.goodSource.add("http://foo.com/bar.html");
+		this.goodSource.add("http://foo.com/bar");
 		this.goodSource.add("https:");
 		this.goodSource.add("https://*.foo.com");
+		this.goodSource.add("http://111.12.32.132");
+		this.goodSource.add("129.31.232.132");
 		
 		this.badSource.add("http:\\\\foo.com\\bar");
 		this.badSource.add("http://;");

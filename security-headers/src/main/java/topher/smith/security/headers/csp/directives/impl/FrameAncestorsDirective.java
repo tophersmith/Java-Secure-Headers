@@ -17,6 +17,7 @@ package topher.smith.security.headers.csp.directives.impl;
 
 import topher.smith.security.headers.csp.CSPValidationReport;
 import topher.smith.security.headers.csp.directives.AbstractCSPDirective;
+import topher.smith.security.headers.csp.directives.SourceValidator;
 
 /**
  * From 
@@ -46,7 +47,7 @@ public class FrameAncestorsDirective extends AbstractCSPDirective {
 	 * @return a reference to this object
 	 */
 	public FrameAncestorsDirective addNone() {
-		addDirectiveValue(AbstractCSPDirective.SRC_KEY_NONE);
+		addDirectiveValue(SourceValidator.SRC_KEY_NONE);
 		return this;
 	}
 
@@ -55,7 +56,7 @@ public class FrameAncestorsDirective extends AbstractCSPDirective {
 	 * @return a reference to this object
 	 */
 	public FrameAncestorsDirective addSelf() {
-		addDirectiveValue(AbstractCSPDirective.SRC_KEY_SELF);
+		addDirectiveValue(SourceValidator.SRC_KEY_SELF);
 		return this;
 	}
 
@@ -74,10 +75,10 @@ public class FrameAncestorsDirective extends AbstractCSPDirective {
 		for (int i = 0; i < this.directiveValues.size(); i++) {
 			String val = this.directiveValues.get(i);
 			val = val.trim().toLowerCase();
-			if (!val.equals(AbstractCSPDirective.SRC_KEY_NONE) && 
-					!val.equals(AbstractCSPDirective.SRC_KEY_SELF) &&
-					!isHostSource(val) && 
-					!isSchemeSource(val)) {
+			if (!val.equals(SourceValidator.SRC_KEY_NONE) && 
+					!val.equals(SourceValidator.SRC_KEY_SELF) &&
+					!SourceValidator.isValidHostSource(val) && 
+					!SourceValidator.isValidSchemeSource(val)) {
 				report.addError(this, "Ancestor Source " + val + 
 						" is not one of host-source, scheme-source, 'self', or 'none'");
 			}

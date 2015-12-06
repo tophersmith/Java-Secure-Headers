@@ -15,8 +15,8 @@
  */
 package topher.smith.security.headers.csp.directives.impl;
 
-import topher.smith.security.headers.csp.directives.AbstractCSPDirective;
 import topher.smith.security.headers.csp.directives.AbstractSrcDirective;
+import topher.smith.security.headers.csp.directives.SourceValidator;
 
 /**
  * From 
@@ -45,7 +45,7 @@ public class FrameSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public FrameSrcDirective addNone() {
-		addDirectiveValue(AbstractCSPDirective.SRC_KEY_NONE);
+		addDirectiveValue(SourceValidator.SRC_KEY_NONE);
 		return this;
 	}
 
@@ -54,7 +54,7 @@ public class FrameSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public FrameSrcDirective addSelf() {
-		addDirectiveValue(AbstractCSPDirective.SRC_KEY_SELF);
+		addDirectiveValue(SourceValidator.SRC_KEY_SELF);
 		return this;
 	}
 	
