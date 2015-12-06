@@ -26,11 +26,11 @@ public class ContentSecurityPolicyHeaderTest {
 		CSPHeaderName[] names = CSPHeaderName.values();
 		for(int i = 0; i < names.length; i++){
 			ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(names[i]);
-			assertEquals(null, names[i].getPrimaryName(), csp.getHeaderName());
+			assertEquals(names[i].getPrimaryName(), csp.getHeaderName());
 		}
 		for(int i = 0; i < names.length; i++){
 			ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(names[i], true);
-			assertEquals(null, names[i].getReportName(), csp.getHeaderName());
+			assertEquals(names[i].getReportName(), csp.getHeaderName());
 		}
 	}
 
@@ -106,9 +106,9 @@ public class ContentSecurityPolicyHeaderTest {
 		} catch (InvalidHeaderException e) {
 			assertTrue(e.getMessage().contains("must be set"));
 		}
-		assertEquals(null, null, csp.getValidationErrors());
-		assertEquals(null, null, csp.getValidationWarnings());
-		assertEquals(null, null, csp.buildHeaderValue());
+		assertEquals(null, csp.getValidationErrors());
+		assertEquals(null, csp.getValidationWarnings());
+		assertEquals(null, csp.buildHeaderValue());
 	}
 
 	@Test
@@ -139,7 +139,7 @@ public class ContentSecurityPolicyHeaderTest {
 		ContentSecurityPolicy policy = new ContentSecurityPolicy();
 		policy.addDirective(new DefaultSrcDirective().addSelf().addSource(ContentSecurityPolicyHeaderTest.source ));
 		csp.setPolicy(policy);
-		assertEquals(null, "default-src 'self' " + ContentSecurityPolicyHeaderTest.source, csp.buildHeaderValue());
+		assertEquals("default-src 'self' " + ContentSecurityPolicyHeaderTest.source, csp.buildHeaderValue());
 	}
 
 	@Test
@@ -148,7 +148,7 @@ public class ContentSecurityPolicyHeaderTest {
 		ContentSecurityPolicy policy = new ContentSecurityPolicy();
 		policy.addDirective(new DefaultSrcDirective().addSelf().addSource("'self'"));
 		csp.setPolicy(policy);
-		assertEquals(null, "default-src 'self' 'self'", csp.buildHeaderValue());
+		assertEquals("default-src 'self' 'self'", csp.buildHeaderValue());
 	}
 
 	@Test
@@ -159,7 +159,7 @@ public class ContentSecurityPolicyHeaderTest {
 		policy.addDirective(new SandboxDirective());
 		csp.setPolicy(policy);
 		csp.setReduce(true);
-		assertEquals(null, "default-src 'self' 'none'", csp.buildHeaderValue());
+		assertEquals("default-src 'self' 'none'", csp.buildHeaderValue());
 	}
 
 	@Test
@@ -171,6 +171,6 @@ public class ContentSecurityPolicyHeaderTest {
 		csp.setPolicy(policy);
 		String pre = csp.buildHeaderValue();
 		csp.setReduce(true);
-		assertEquals(null, pre, csp.buildHeaderValue());
+		assertEquals(pre, csp.buildHeaderValue());
 	}
 }

@@ -22,6 +22,6 @@ public class XContentTypeOptionsHeaderTest {
 	@Test
 	public void testBuildHeaderValue() {
 		XContentTypeOptionsHeader cont = new XContentTypeOptionsHeader();
-		assertEquals(null,cont.buildHeaderValue(), "nosniff");
+		assertEquals("nosniff", cont.buildHeaderValue());
 	}
 }

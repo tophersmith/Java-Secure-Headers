@@ -80,28 +80,28 @@ public class XXSSProtectionHeaderTest {
 	@Test
 	public void testBuildHeaderStandard() {
 		XXSSProtectionHeader xss = new XXSSProtectionHeader();
-		assertEquals(null, xss.buildHeaderValue(), "1; mode=block");
+		assertEquals("1; mode=block", xss.buildHeaderValue());
 	}
 	
 	@Test
 	public void testBuildHeaderProtectionOnBlockOff() {
 		XXSSProtectionHeader xss = new XXSSProtectionHeader();
 		xss.disableBlock().enableProtection();
-		assertEquals(null, xss.buildHeaderValue(), "1");
+		assertEquals("1", xss.buildHeaderValue());
 	}
 	
 	@Test
 	public void testBuildHeaderProtectionOff() {
 		XXSSProtectionHeader xss = new XXSSProtectionHeader();
 		xss.disableBlock().disableProtection();
-		assertEquals(null, xss.buildHeaderValue(), "0");
+		assertEquals("0", xss.buildHeaderValue());
 	}
 	
 	@Test
 	public void testBuildHeaderFullCorrect() {
 		XXSSProtectionHeader xss = new XXSSProtectionHeader();
 		xss.enableBlock().enableProtection().addReportURL(XXSSProtectionHeaderTest.reportURL);
-		assertEquals(null, xss.buildHeaderValue(),"1; mode=block; report="+XXSSProtectionHeaderTest.reportURL);
+		assertEquals("1; mode=block; report="+XXSSProtectionHeaderTest.reportURL, xss.buildHeaderValue());
 	}
 
 }

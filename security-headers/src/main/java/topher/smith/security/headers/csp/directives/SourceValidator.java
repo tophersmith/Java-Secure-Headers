@@ -96,13 +96,13 @@ public class SourceValidator{
 		}
 		
 		String port = urlMatcher.group(3);
-		if(port != null && port.startsWith(":")){
-			port = port.substring(1, port.length());
-		}
 		String path = urlMatcher.group(4);
 		
 		try{
 			if(port != null){
+				if(port.startsWith(":")){
+					port = port.substring(1, port.length());
+				}
 				int prt = Integer.parseInt(port);
 				/*
 				 * PORT MIN will not be hit as the regex will catch it, kept for

@@ -51,7 +51,7 @@ public class SecurityHeadersTest{
 			if(entry.getKey().equals(xss.getHeaderName())){
 				assertEquals(xss.buildHeaderValue(), entry.getValue());
 			} else if(entry.getKey().equals(xframe.getHeaderName())){
-				assertEquals(xframe.buildHeaderValue(),entry.getValue());
+				assertEquals(xframe.buildHeaderValue(), entry.getValue());
 			} else{
 				fail("Could not get xframe or xss header for entry: " + entry.toString());
 			}

@@ -62,15 +62,15 @@ public class XFrameOptionsHeaderTest {
 	public void testBuildHeaderReporting() {
 		XFrameOptionsHeader xf = new XFrameOptionsHeader();
 		xf.setDeny();
-		assertEquals(null, xf.buildHeaderValue(), "DENY");
+		assertEquals("DENY", xf.buildHeaderValue());
 		xf.setAllowFrom(XFrameOptionsHeaderTest.reportURL);
-		assertEquals(null, xf.buildHeaderValue(), "ALLOW-FROM " + XFrameOptionsHeaderTest.reportURL);
+		assertEquals("ALLOW-FROM " + XFrameOptionsHeaderTest.reportURL, xf.buildHeaderValue());
 	}
 	
 	@Test
 	public void testBuildHeaderDefault() {
 		XFrameOptionsHeader xf = new XFrameOptionsHeader();
-		assertEquals(null, xf.buildHeaderValue(), "SAMEORIGIN");
+		assertEquals("SAMEORIGIN",xf.buildHeaderValue());
 	}
 
 }

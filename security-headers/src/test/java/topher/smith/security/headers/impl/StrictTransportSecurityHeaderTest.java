@@ -68,14 +68,14 @@ public class StrictTransportSecurityHeaderTest {
 	@Test
 	public void testBuildHeaderValueDefault() {
 		StrictTransportSecurityHeader st = new StrictTransportSecurityHeader();
-		assertEquals(null, st.buildHeaderValue(), "max-age=31536000; includeSubDomains");
+		assertEquals("max-age=31536000; includeSubDomains",st.buildHeaderValue());
 	}
 	
 	@Test
 	public void testBuildHeaderValueFullComplete() {
 		StrictTransportSecurityHeader st = new StrictTransportSecurityHeader();
 		st.enablePreload();
-		assertEquals(null, st.buildHeaderValue(), "max-age=31536000; includeSubDomains; preload");
+		assertEquals("max-age=31536000; includeSubDomains; preload",st.buildHeaderValue());
 	}
 	
 	@Test
@@ -87,6 +87,6 @@ public class StrictTransportSecurityHeaderTest {
 		st.enablePreload();
 		st.disableIncludeSubDomains();
 		st.disablePreload();
-		assertEquals(null, st.buildHeaderValue(), plain);
+		assertEquals(plain, st.buildHeaderValue());
 	}
 }
