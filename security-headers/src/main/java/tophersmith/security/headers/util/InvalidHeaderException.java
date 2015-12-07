@@ -26,6 +26,7 @@ public class InvalidHeaderException extends Exception {
 
 	/**
 	 * Construct an InvalidHeaderException with the given message
+	 * @param message the detail message.
 	 */
 	public InvalidHeaderException(String message) {
 		super(message);

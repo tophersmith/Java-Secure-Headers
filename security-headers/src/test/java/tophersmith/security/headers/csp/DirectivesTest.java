@@ -297,12 +297,12 @@ public class DirectivesTest {
 		}
 		for(int i = 0; i < 2; i++){
 			String nonce = StyleSrcDirective.generateNonce(10);
-			String hash = "12345";
+			String hash = "QUFB";
 			
 			dir.addNonce(nonce);
 			dir.addHash("sha256", hash);
 		}
-		directiveTest(dir, name, this.goodSource.size()+5, false, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "12345", "sha256");
+		directiveTest(dir, name, this.goodSource.size()+5, false, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "QUFB", "sha256");
 		
 		dir.resetHashes();
 		dir.resetNonces();
@@ -310,7 +310,7 @@ public class DirectivesTest {
 		directiveTest(dir, name, this.goodSource.size()+5, false, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'");
 		
 		assertTrue(!dir.buildDirective().contains("sha256"));
-		assertTrue(!dir.buildDirective().contains("12345"));
+		assertTrue(!dir.buildDirective().contains("QUFB"));
 
 		for(String src : this.badSource){
 			dir.addSource(src);
@@ -318,12 +318,12 @@ public class DirectivesTest {
 
 		for(int i = 0; i < 2; i++){
 			String nonce = StyleSrcDirective.generateNonce(10);
-			String hash = "98765";
+			String hash = "QUFB";
 			
 			dir.addNonce(nonce);
 			dir.addHash("sha512", hash);
 		}
-		directiveTest(dir, name, this.badSource.size()+this.goodSource.size()+5, true, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "98765", "sha512");
+		directiveTest(dir, name, this.badSource.size()+this.goodSource.size()+5, true, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "QUFB", "sha512");
 	}
 	
 	@Test
@@ -341,12 +341,12 @@ public class DirectivesTest {
 		}
 		for(int i = 0; i < 2; i++){
 			String nonce = StyleSrcDirective.generateNonce(10);
-			String hash = "12345";
+			String hash = "QUFB";
 			
 			dir.addNonce(nonce);
 			dir.addHash("sha256", hash);
 		}
-		directiveTest(dir, name, this.goodSource.size()+5, false, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "12345", "sha256");
+		directiveTest(dir, name, this.goodSource.size()+5, false, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "QUFB", "sha256");
 		
 		dir.resetHashes();
 		dir.resetNonces();
@@ -354,7 +354,7 @@ public class DirectivesTest {
 		directiveTest(dir, name, this.goodSource.size()+5, false, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'");
 		
 		assertTrue(!dir.buildDirective().contains("sha256"));
-		assertTrue(!dir.buildDirective().contains("12345"));
+		assertTrue(!dir.buildDirective().contains("QUFB"));
 
 		for(String src : this.badSource){
 			dir.addSource(src);
@@ -362,12 +362,12 @@ public class DirectivesTest {
 
 		for(int i = 0; i < 2; i++){
 			String nonce = StyleSrcDirective.generateNonce(10);
-			String hash = "98765";
+			String hash = "QUFB";
 			
 			dir.addNonce(nonce);
 			dir.addHash("sha512", hash);
 		}
-		directiveTest(dir, name, this.badSource.size()+this.goodSource.size()+5, true, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "98765", "sha512");
+		directiveTest(dir, name, this.badSource.size()+this.goodSource.size()+5, true, BASIC_SOURCE, "'self'", "'none'", "'unsafe-inline'", "'unsafe-eval'", "QUFB", "sha512");
 	}
 	
 	@Test

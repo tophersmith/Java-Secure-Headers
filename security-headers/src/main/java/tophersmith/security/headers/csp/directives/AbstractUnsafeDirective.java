@@ -20,6 +20,7 @@ import java.util.List;
 
 import tophersmith.security.headers.csp.CSPValidationReport;
 import tophersmith.security.headers.util.SecureRandomUtil;
+import tophersmith.security.headers.util.Validator;
 
 /**
  * The AbstractUnsafeDirective is a base class for script-src and style-src
@@ -36,7 +37,7 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 
 	//character set is Alpha-Numerics
 	private static final String[] NONCE_CHARSET = 
-			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
 
 	private static final String NONCE_PREFIX = "nonce";
 	private static final String QUOTE = "'";
@@ -89,11 +90,11 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	/**
 	 * construct a secure alphanumeric nonce string
 	 *  
-	 * @param size the string length
+	 * @param size the string length. This value will be set to the nearest multiple of 4
 	 * @return an alphanumeric string of length size 
 	 */
 	public static String generateNonce(int size) {
-		return SecureRandomUtil.generateRandomString(AbstractUnsafeDirective.NONCE_CHARSET, size);
+		return SecureRandomUtil.generateRandomString(AbstractUnsafeDirective.NONCE_CHARSET, size/4*4);
 	}
 	
 	
@@ -108,19 +109,16 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	/**
 	 * test whether this directive value is a Keyword
 	 * @param val a directive value to validate
-	 * @param report a validation report to hold any issues discovered 
 	 * @return true if val is one of 'unsafe-eval' 'unsafe-inline' or starts with 'nonce
 	 */
 	@Override
 	protected boolean isValidKeyword(String val) {
-		return super.isValidKeyword(val) || SourceValidator.isValidUnsafeKeyword(val);
+		return super.isValidKeyword(val) || Validator.isValidUnsafeKeyword(val);
 	}
 	
 	/**
-	 * test whether this directive value is a hash
-	 * @param val a directive value to validate
+	 * test whether this directive value contains valid hashes
 	 * @param report a validation report to hold any issues discovered 
-	 * @return true if val starts with a valid hashtype
 	 */
 	protected void validateHashes(CSPValidationReport report) {
 		for (int j = 0; j < this.hashes.size(); j++) {
@@ -136,6 +134,34 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 			if (!valid) {
 				report.addError(this, "Hash algorithm " + hash + " not allowed");
 			}
+			int dash = hash.indexOf("-");
+			int lastquote = hash.lastIndexOf("'");
+			if(dash < 0 || lastquote < 0){
+				report.addError(this, "Hash: " + hash + " does not have a valid value");
+			}
+			String hashVal = hash.substring(dash+1, lastquote);
+			if(!Validator.isBase64String(hashVal)){
+				report.addError(this, "Hash: " + hash + " is not base-64 encoded");
+			}
+		}
+	}
+	
+	/**
+	 * test whether this directive value contains valid nonces
+	 * @param report a validation report to hold any issues discovered 
+	 */
+	protected void validateNonces(CSPValidationReport report){
+		for (int j = 0; j < this.nonces.size(); j++) {
+			String nonce = this.nonces.get(j);
+			int dash = nonce.indexOf("-");
+			int lastquote = nonce.lastIndexOf("'");
+			if(dash < 0 || lastquote < 0){
+				report.addError(this, "Nonce: " + nonce + " does not have a valid value");
+			}
+			String nonceVal = nonce.substring(dash+1, lastquote);
+			if(!Validator.isBase64String(nonceVal)){
+				report.addError(this, "Nonce: " + nonce + " is not base-64 encoded");
+			}
 		}
 	}
 	
@@ -147,7 +173,7 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	protected String buildDirectiveValue() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getDirectiveName());
-		appendStandardDirectiveValues(sb);
+		sb.append(buildStandardDirectiveValues());
 		for (int i = 0; i < this.nonces.size(); i++) {
 			sb.append(this.nonces.get(i)).append(" ");
 		}
@@ -158,14 +184,15 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	}
 	
 	
+	/**
+	 * For this Unsafe-style Directive, validate according to 
+	 * {@link AbstractSrcDirective#validateAndReport(CSPValidationReport)}
+	 * also validate the hashes and nonces
+	 */
 	@Override
 	public void validateAndReport(CSPValidationReport report) {
 		super.validateAndReport(report);
 		validateHashes(report);
-		/*
-		 * nonces need not be validated as they are always of 
-		 * the same form and the value can technically be any
-		 * string, not just a generated one 
-		 */
+		validateNonces(report);
 	}
 }

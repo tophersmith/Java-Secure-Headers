@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import tophersmith.security.headers.csp.CSPHeaderName;
 import tophersmith.security.headers.csp.ContentSecurityPolicy;
 import tophersmith.security.headers.csp.PolicyLevel;
 import tophersmith.security.headers.csp.directives.impl.DefaultSrcDirective;
@@ -14,7 +15,6 @@ import tophersmith.security.headers.csp.directives.impl.FrameSrcDirective;
 import tophersmith.security.headers.csp.directives.impl.SandboxDirective;
 import tophersmith.security.headers.csp.directives.impl.ScriptSrcDirective;
 import tophersmith.security.headers.impl.ContentSecurityPolicyHeader;
-import tophersmith.security.headers.impl.ContentSecurityPolicyHeader.CSPHeaderName;
 import tophersmith.security.headers.util.InvalidHeaderException;
 
 public class ContentSecurityPolicyHeaderTest {

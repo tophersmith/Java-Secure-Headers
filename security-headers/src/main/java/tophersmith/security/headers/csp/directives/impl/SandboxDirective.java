@@ -20,11 +20,13 @@ import tophersmith.security.headers.csp.directives.AbstractCSPDirective;
 
 /**
  * From 
- * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
+ * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
  * <br/>
  * The sandbox directive specifies an HTML sandbox policy that the user 
  * agent applies to the protected resource. Optional in CSP 1.0. See 
- * {@link http://www.w3.org/TR/CSP2/#directive-sandbox}
+ * <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
+ * http://www.w3.org/TR/CSP2/#directive-base-uri</a>
  * 
  * @author Chris Smith
  *

@@ -16,6 +16,7 @@
 package tophersmith.security.headers.csp.directives;
 
 import tophersmith.security.headers.csp.CSPValidationReport;
+import tophersmith.security.headers.util.Validator;
 
 /**
  * The AbstractSrcDirective is a base class for all source-list based 
@@ -38,10 +39,10 @@ public abstract class AbstractSrcDirective extends AbstractCSPDirective {
 	@Override
 	public void validateAndReport(CSPValidationReport report) {
 		if(this.directiveValues.size() > 1){
-			if(this.directiveValues.contains(SourceValidator.SRC_KEY_NONE)){
+			if(this.directiveValues.contains(Validator.SRC_KEY_NONE)){
 				report.addWarning(this, "Should not contain multiple directive values where one is 'none'");
 			}
-			if(this.directiveValues.contains(SourceValidator.SRC_WILDCARD)){
+			if(this.directiveValues.contains(Validator.SRC_WILDCARD)){
 				report.addWarning(this, "Should not contain multiple directive values where one is a wildcard");
 			}
 		}

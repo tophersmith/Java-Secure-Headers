@@ -16,13 +16,13 @@
 package tophersmith.security.headers.csp.directives;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import tophersmith.security.headers.csp.CSPValidationReport;
+import tophersmith.security.headers.util.Validator;
 
 /**
  * The AbstractCSPDirective is the base implementation for all directive values
@@ -33,8 +33,19 @@ import tophersmith.security.headers.csp.CSPValidationReport;
  */
 public abstract class AbstractCSPDirective {
 
+	/**
+	 * The list of RFC-compliance directive values
+	 */
 	protected final List<String> directiveValues;
+	
+	/**
+	 * The list of non-RFC-compliance directive values
+	 */
 	protected final List<String> experimentalValues;
+	
+	/**
+	 * The name of the directive
+	 */
 	protected final String name;
 
 	protected AbstractCSPDirective(String name) {
@@ -62,7 +73,12 @@ public abstract class AbstractCSPDirective {
 		}
 	}
 	
-	public void addExperimentalValue(String value){
+	/**
+	 * append the given experimental directive value to this directive 
+	 * if it is not null or empty
+	 * @param value a directive value to add
+	 */	
+	 public void addExperimentalValue(String value){
 		if (value != null && !value.trim().isEmpty()) {
 			this.experimentalValues.add(value);
 		}
@@ -83,16 +99,24 @@ public abstract class AbstractCSPDirective {
 		}
 		
 		if ( !isValidKeyword(test) && 
-			 !SourceValidator.isValidSchemeSource(test) && 
-			 !SourceValidator.isValidHostSource(test)) {
+			 !Validator.isValidSchemeSource(test) && 
+			 !Validator.isValidHostSource(test)) {
 			report.addError(this, "Source value " + val + " could not be validated");
 		}
 	}
 	
+	/**
+	 * Test if a given value does not contain any invalid characters.
+	 * If the value contains an invalid character, a report message is filed
+	 * 
+	 * @param val a String to test
+	 * @param report a validation report to hold any issues discovered 
+	 * @return true if the value contains only legal values, false otherwise
+	 */
 	protected boolean hasValidCharacters(String val, CSPValidationReport report){
-		boolean valid = SourceValidator.hasValidCharacters(val);
+		boolean valid = Validator.hasValidCharacters(val);
 		if(!valid){
-			report.addError(this, "Source value " + val + " contains an illegal character: " + Arrays.toString(SourceValidator.ILLEGAL_SRC_CHARS));
+			report.addError(this, "Source value " + val + " contains an illegal character");
 		}
 		return valid;
 	}
@@ -101,15 +125,15 @@ public abstract class AbstractCSPDirective {
 	 * Validate any Keywords associated with this directive
 	 * 
 	 * @param val a directive value to validate
-	 * @param report a validation report to hold any issues discovered
 	 * @return true if this keyword is valid, false if it isn't or doesn't exist
 	 */
 	protected boolean isValidKeyword(String val) {
-		return SourceValidator.isValidSrcKeyword(val);
+		return Validator.isValidSrcKeyword(val);
 	}
 
 	/**
 	 * Convert this directive into a proper string representation
+	 * including the experimental ones
 	 * @return a string representation of this directive
 	 */
 	public String buildDirective() {
@@ -120,20 +144,30 @@ public abstract class AbstractCSPDirective {
 		return buildDirectiveValue();
 	}
 	
+	/**
+	 * Construct the directive line including the experimental ones
+	 * @return the directive line describing this directive
+	 */
 	protected String buildDirectiveValue(){
 		StringBuilder sb = new StringBuilder();
 		sb.append(getDirectiveName());
-		appendStandardDirectiveValues(sb);
+		sb.append(buildStandardDirectiveValues());
 		return sb.toString();
 	}
 	
-	protected void appendStandardDirectiveValues(StringBuilder sb){
+	/**
+	 * Build the normal directive values including the experimental ones
+	 * @return the standard directive line describing this directive
+	 */
+	protected String buildStandardDirectiveValues(){
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < this.directiveValues.size(); i++) {
 			sb.append(" ").append(this.directiveValues.get(i));
 		}
 		for (int i = 0; i < this.experimentalValues.size(); i++) {
 			sb.append(" ").append(this.experimentalValues.get(i));
 		}
+		return sb.toString();
 	}
 
 	/**

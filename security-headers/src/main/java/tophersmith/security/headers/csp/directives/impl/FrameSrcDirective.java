@@ -16,15 +16,17 @@
 package tophersmith.security.headers.csp.directives.impl;
 
 import tophersmith.security.headers.csp.directives.AbstractSrcDirective;
-import tophersmith.security.headers.csp.directives.SourceValidator;
+import tophersmith.security.headers.util.Validator;
 
 /**
  * From 
- * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
+ * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
  * <br/>
  * The frame-src directive restricts from where the protected resource 
- * can embed frames. <br/><b>Note:</b> Deprecated in CSP 2.0. <br/>See 
- * {@link http://www.w3.org/TR/CSP2/#directive-frame-src}
+ * can embed frames. <br/><b>Note:</b> Deprecated in CSP 2.0. <br/>
+ * See <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
+ * http://www.w3.org/TR/CSP2/#directive-base-uri</a>
  * 
  * @author Chris Smith
  *
@@ -45,7 +47,7 @@ public class FrameSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public FrameSrcDirective addNone() {
-		addDirectiveValue(SourceValidator.SRC_KEY_NONE);
+		addDirectiveValue(Validator.SRC_KEY_NONE);
 		return this;
 	}
 
@@ -54,7 +56,7 @@ public class FrameSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public FrameSrcDirective addSelf() {
-		addDirectiveValue(SourceValidator.SRC_KEY_SELF);
+		addDirectiveValue(Validator.SRC_KEY_SELF);
 		return this;
 	}
 	

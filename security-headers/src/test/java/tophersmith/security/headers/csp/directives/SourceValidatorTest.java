@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import tophersmith.security.headers.csp.directives.SourceValidator;
+import tophersmith.security.headers.util.Validator;
 
 public class SourceValidatorTest {
 
@@ -14,10 +14,10 @@ public class SourceValidatorTest {
 		String[] positiveTests = new String[]{"A", "1", ":", "A1:"};
 		String[] negativeTests = new String[]{" ", ";", ",", "A ;,", null};
 		for(String value : positiveTests){
-			assertTrue(value + "failed", SourceValidator.hasValidCharacters(value));
+			assertTrue(value + "failed", Validator.hasValidCharacters(value));
 		}
 		for(String value : negativeTests){
-			assertFalse(value + "failed", SourceValidator.hasValidCharacters(value));
+			assertFalse(value + "failed", Validator.hasValidCharacters(value));
 		}
 	}
 	
@@ -31,10 +31,10 @@ public class SourceValidatorTest {
 				"http://foo.com:789789/test", "http://foo.com:-4/test",
 				"http://foo.com:hello/test", null};
 		for(String value : positiveTests){
-			assertTrue(value + "failed", SourceValidator.isValidHostSource(value));
+			assertTrue(value + "failed", Validator.isValidHostSource(value));
 		}
 		for(String value : negativeTests){
-			assertFalse(value + "failed", SourceValidator.isValidHostSource(value));
+			assertFalse(value + "failed", Validator.isValidHostSource(value));
 		}
 	}
 	
@@ -44,10 +44,10 @@ public class SourceValidatorTest {
 				"fake:", "averylongscheme:", "chars+.-:"};
 		String[] negativeTests = new String[]{":", "4:","&^%$#:", "", null};
 		for(String value : positiveTests){
-			assertTrue(value + "failed", SourceValidator.isValidSchemeSource(value));
+			assertTrue(value + "failed", Validator.isValidSchemeSource(value));
 		}
 		for(String value : negativeTests){
-			assertFalse(value + "failed", SourceValidator.isValidSchemeSource(value));
+			assertFalse(value + "failed", Validator.isValidSchemeSource(value));
 		}
 	}
 	
@@ -56,10 +56,10 @@ public class SourceValidatorTest {
 		String[] positiveTests = new String[]{ "'none'", "'self'"};
 		String[] negativeTests = new String[]{"*", "foo", null, "'no'"};
 		for(String value : positiveTests){
-			assertTrue(value + "failed", SourceValidator.isValidSrcKeyword(value));
+			assertTrue(value + "failed", Validator.isValidSrcKeyword(value));
 		}
 		for(String value : negativeTests){
-			assertFalse(value + "failed", SourceValidator.isValidSrcKeyword(value));
+			assertFalse(value + "failed", Validator.isValidSrcKeyword(value));
 		}
 	}
 	
@@ -68,10 +68,10 @@ public class SourceValidatorTest {
 		String[] positiveTests = new String[]{"'unsafe-inline'", "'unsafe-eval'"};
 		String[] negativeTests = new String[]{"'unsafe-foobar'", null};
 		for(String value : positiveTests){
-			assertTrue(value + "failed", SourceValidator.isValidUnsafeKeyword(value));
+			assertTrue(value + "failed", Validator.isValidUnsafeKeyword(value));
 		}
 		for(String value : negativeTests){
-			assertFalse(value + "failed", SourceValidator.isValidUnsafeKeyword(value));
+			assertFalse(value + "failed", Validator.isValidUnsafeKeyword(value));
 		}
 	}
 }

@@ -22,11 +22,13 @@ import tophersmith.security.headers.csp.directives.AbstractCSPDirective;
 
 /**
  * From 
- * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
+ * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
  * <br/>
  * The report-uri directive specifies a URL to which the user agent sends 
  * reports about policy violation. See 
- * {@link http://www.w3.org/TR/CSP2/#directive-report-uri}
+ * <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
+ * http://www.w3.org/TR/CSP2/#directive-base-uri</a>
  * 
  * @author Chris Smith
  *
@@ -46,7 +48,7 @@ public class ReportUriDirective extends AbstractCSPDirective {
 	/**
 	 * adds the given URL to the directive
 	 * @param uri a URL endpoint that accepts CSP violation reports
-	 * @return
+	 * @return a reference to this object
 	 */
 	public ReportUriDirective addReportUri(String uri) {
 		addDirectiveValue(uri);

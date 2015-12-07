@@ -29,8 +29,7 @@ public abstract class AbstractHeader {
 	/**
 	 * Base abstraction to set up header names
 	 * 
-	 * @param primaryName Required name of the header
-	 * @param altNames Optional name(s) of the header (e.g. for experimental headers)
+	 * @param headerName Required name of the header
 	 */
 	protected AbstractHeader(String headerName) {
 		this.headerName = headerName;

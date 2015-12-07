@@ -17,6 +17,7 @@ package tophersmith.security.headers.impl;
 
 import java.util.List;
 
+import tophersmith.security.headers.csp.CSPHeaderName;
 import tophersmith.security.headers.csp.ContentSecurityPolicy;
 import tophersmith.security.headers.util.InvalidHeaderException;
 
@@ -29,37 +30,6 @@ import tophersmith.security.headers.util.InvalidHeaderException;
  *
  */
 public class ContentSecurityPolicyHeader extends AbstractHeader {
-
-	/**
-	 * Defines the available header names for CSP
-	 * Defines both the standard(violation mode) header as well as the 
-	 * report only header
-	 * 
-	 * @author Chris Smith
-	 *
-	 */
-	public static enum CSPHeaderName {
-		CSP("Content-Security-Policy", "Content-Security-Policy-Report-Only"), 
-		XCSP("X-Content-Security-Policy", "X-Content-Security-Policy-Report-Only"), 
-		WEBKIT("X-Webkit-CSP", "X-Webkit-CSP-Report-Only"),
-		;
-		
-		private final String primary;
-		private final String report;
-
-		private CSPHeaderName(String primary, String reportOnly) {
-			this.primary = primary;
-			this.report = reportOnly;
-		}
-
-		String getPrimaryName() {
-			return this.primary;
-		}
-
-		String getReportName() {
-			return this.report;
-		}
-	}
 
 	private static final String LINE_SEPERATOR = System.lineSeparator();
 	private boolean reduce = false;
@@ -139,6 +109,7 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 	
 	/**
 	 * return all validation errors. Must have called validate already
+	 * @return List of validation errors
 	 */
 	public List<String> getValidationErrors(){
 		if(this.csp != null){
@@ -149,6 +120,7 @@ public class ContentSecurityPolicyHeader extends AbstractHeader {
 	
 	/**
 	 * return all validation warnings. Must have called validate already
+	 * @return List of validation warnings
 	 */
 	public List<String> getValidationWarnings(){
 		if(this.csp != null){

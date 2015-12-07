@@ -1,16 +1,42 @@
-package tophersmith.security.headers.csp.directives;
+package tophersmith.security.headers.util;
 
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SourceValidator{
+/**
+ * The Validator class contains multiple helper methods to verify that
+ * given values conform to certain characteristics
+ * 
+ * @author Chris Smith
+ *
+ */
+public class Validator{
 
+	/**
+	 * src-list describes a wildcard as: *
+	 */
 	public static final String SRC_WILDCARD = "*";
+
+	/**
+	 * src-list describes a wildcard as: 'none'
+	 */
 	public static final String SRC_KEY_NONE = "'none'";
+	
+	/**
+	 * src-list describes a wildcard as: 'self'
+	 */
 	public static final String SRC_KEY_SELF = "'self'";
+	
+	/**
+	 * src-list describes a wildcard as: 'unsafe-inline'
+	 */
 	public static final String SRC_UNSAFE_INLINE = "'unsafe-inline'";
+	
+	/**
+	 * src-list describes a wildcard as: 'unsafe-eval'
+	 */
 	public static final String SRC_UNSAFE_EVAL = "'unsafe-eval'";
 	
 	//these characters may not exist in any directive value
@@ -43,6 +69,9 @@ public class SourceValidator{
 	//scheme-source definition
 	private static final Pattern SCHEME_SOURCE = Pattern.compile("^" + SCHEME_PART + ":$");
 
+	
+	//base64 definition
+	private static final Pattern BASE64 = Pattern.compile("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$");
 	
 	public static boolean hasValidCharacters(String value){
 		if(value == null){
@@ -127,5 +156,14 @@ public class SourceValidator{
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * return true if the string could be a base64-encoded string 
+	 * @param str a string to validate against
+	 * @return true if the string could be base64 encoded
+	 */
+	public static boolean isBase64String(String str){
+		return BASE64.matcher(str).find();
 	}
 }

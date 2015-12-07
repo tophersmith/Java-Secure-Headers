@@ -16,11 +16,12 @@
 package tophersmith.security.headers.csp.directives.impl;
 
 import tophersmith.security.headers.csp.directives.AbstractSrcDirective;
-import tophersmith.security.headers.csp.directives.SourceValidator;
+import tophersmith.security.headers.util.Validator;
 
 /**
  * From 
- * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
+ * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
  * <br/>
  * The default-src directive governs the default src-list of other directives. 
  * These include: 
@@ -34,7 +35,8 @@ import tophersmith.security.headers.csp.directives.SourceValidator;
  * <li>script-src</li>
  * <li>style-src</li>
  * </ul>
- * See {@link http://www.w3.org/TR/CSP2/#directive-default-src}
+ * See <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
+ * http://www.w3.org/TR/CSP2/#directive-base-uri</a>
  * 
  * @author Chris Smith
  *
@@ -55,7 +57,7 @@ public class DefaultSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public DefaultSrcDirective addNone() {
-		addDirectiveValue(SourceValidator.SRC_KEY_NONE);
+		addDirectiveValue(Validator.SRC_KEY_NONE);
 		return this;
 	}
 
@@ -64,7 +66,7 @@ public class DefaultSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public DefaultSrcDirective addSelf() {
-		addDirectiveValue(SourceValidator.SRC_KEY_SELF);
+		addDirectiveValue(Validator.SRC_KEY_SELF);
 		return this;
 	}
 

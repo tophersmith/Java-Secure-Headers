@@ -62,7 +62,7 @@ public class StrictTransportSecurityHeader extends AbstractHeader {
 
 	/**
 	 * sets the max-age to the given input age (in seconds)
-	 * @param max age parameter in seconds
+	 * @param ageInSeconds max age parameter in seconds
 	 * @return a reference to this object
 	 */
 	public StrictTransportSecurityHeader setMaxAge(String ageInSeconds) {

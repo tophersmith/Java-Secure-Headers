@@ -16,16 +16,18 @@
 package tophersmith.security.headers.csp.directives.impl;
 
 import tophersmith.security.headers.csp.directives.AbstractSrcDirective;
-import tophersmith.security.headers.csp.directives.SourceValidator;
+import tophersmith.security.headers.util.Validator;
 
 /**
  * From 
- * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
+ * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
  * <br/>
  * The media-src directive restricts from where the protected resource can 
  * load video, audio, and associated text tracks. This directive relies on 
  * the CSP default-src list if this directive is undefined. See 
- * {@link http://www.w3.org/TR/CSP2/#directive-media-src}
+ * <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
+ * http://www.w3.org/TR/CSP2/#directive-base-uri</a>
  * 
  * @author Chris Smith
  *
@@ -46,7 +48,7 @@ public class MediaSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public MediaSrcDirective addNone() {
-		addDirectiveValue(SourceValidator.SRC_KEY_NONE);
+		addDirectiveValue(Validator.SRC_KEY_NONE);
 		return this;
 	}
 
@@ -55,7 +57,7 @@ public class MediaSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public MediaSrcDirective addSelf() {
-		addDirectiveValue(SourceValidator.SRC_KEY_SELF);
+		addDirectiveValue(Validator.SRC_KEY_SELF);
 		return this;
 	}
 

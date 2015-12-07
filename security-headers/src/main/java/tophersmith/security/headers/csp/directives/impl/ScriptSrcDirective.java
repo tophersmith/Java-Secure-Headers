@@ -16,17 +16,20 @@
 package tophersmith.security.headers.csp.directives.impl;
 
 import tophersmith.security.headers.csp.directives.AbstractUnsafeDirective;
-import tophersmith.security.headers.csp.directives.SourceValidator;
+import tophersmith.security.headers.util.Validator;
 
 /**
  * From 
- * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
+ * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
  * <br/>
  * The script-src directive restricts which scripts the protected resource 
  * can execute. Additional restrictions against inline scripts, and eval. 
  * Additional directives were added in CSP2 for hash and nonce support. 
  * This directive relies on the CSP default-src list if this directive 
- * is undefined. See {@link http://www.w3.org/TR/CSP2/#directive-script-src}
+ * is undefined. See 
+ * <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
+ * http://www.w3.org/TR/CSP2/#directive-base-uri</a>
  * 
  * @author Chris Smith
  *
@@ -47,7 +50,7 @@ public class ScriptSrcDirective extends AbstractUnsafeDirective {
 	 * @return a reference to this object
 	 */
 	public ScriptSrcDirective addNone() {
-		addDirectiveValue(SourceValidator.SRC_KEY_NONE);
+		addDirectiveValue(Validator.SRC_KEY_NONE);
 		return this;
 	}
 
@@ -56,7 +59,7 @@ public class ScriptSrcDirective extends AbstractUnsafeDirective {
 	 * @return a reference to this object
 	 */
 	public ScriptSrcDirective addSelf() {
-		addDirectiveValue(SourceValidator.SRC_KEY_SELF);
+		addDirectiveValue(Validator.SRC_KEY_SELF);
 		return this;
 	}
 
@@ -75,7 +78,7 @@ public class ScriptSrcDirective extends AbstractUnsafeDirective {
 	 * @return a reference to this object
 	 */
 	public ScriptSrcDirective addUnsafeInline() {
-		addDirectiveValue(SourceValidator.SRC_UNSAFE_INLINE);
+		addDirectiveValue(Validator.SRC_UNSAFE_INLINE);
 		return this;
 	}
 
@@ -84,7 +87,7 @@ public class ScriptSrcDirective extends AbstractUnsafeDirective {
 	 * @return a reference to this object
 	 */
 	public ScriptSrcDirective addUnsafeEval() {
-		addDirectiveValue(SourceValidator.SRC_UNSAFE_EVAL);
+		addDirectiveValue(Validator.SRC_UNSAFE_EVAL);
 		return this;
 	}
 

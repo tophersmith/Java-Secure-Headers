@@ -17,16 +17,18 @@ package tophersmith.security.headers.csp.directives.impl;
 
 import tophersmith.security.headers.csp.CSPValidationReport;
 import tophersmith.security.headers.csp.directives.AbstractCSPDirective;
-import tophersmith.security.headers.csp.directives.SourceValidator;
+import tophersmith.security.headers.util.Validator;
 
 /**
  * From 
- * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
+ * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
  * <br/>
  * The frame-ancestors directive indicates whether the user agent should 
  * allow embedding the resource using a frame, iframe, object, embed or 
  * applet element, or equivalent functionality in non-HTML resources. 
- * See {@link http://www.w3.org/TR/CSP2/#directive-frame-ancestors}
+ * See <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
+ * http://www.w3.org/TR/CSP2/#directive-base-uri</a>
  * 
  * @author Chris Smith
  *
@@ -47,7 +49,7 @@ public class FrameAncestorsDirective extends AbstractCSPDirective {
 	 * @return a reference to this object
 	 */
 	public FrameAncestorsDirective addNone() {
-		addDirectiveValue(SourceValidator.SRC_KEY_NONE);
+		addDirectiveValue(Validator.SRC_KEY_NONE);
 		return this;
 	}
 
@@ -56,7 +58,7 @@ public class FrameAncestorsDirective extends AbstractCSPDirective {
 	 * @return a reference to this object
 	 */
 	public FrameAncestorsDirective addSelf() {
-		addDirectiveValue(SourceValidator.SRC_KEY_SELF);
+		addDirectiveValue(Validator.SRC_KEY_SELF);
 		return this;
 	}
 
@@ -75,9 +77,9 @@ public class FrameAncestorsDirective extends AbstractCSPDirective {
 		for (int i = 0; i < this.directiveValues.size(); i++) {
 			String val = this.directiveValues.get(i);
 			val = val.trim().toLowerCase();
-			if (!SourceValidator.isValidSrcKeyword(val) &&
-					!SourceValidator.isValidHostSource(val) && 
-					!SourceValidator.isValidSchemeSource(val)) {
+			if (!Validator.isValidSrcKeyword(val) &&
+					!Validator.isValidHostSource(val) && 
+					!Validator.isValidSchemeSource(val)) {
 				report.addError(this, "Ancestor Source " + val + 
 						" is not one of host-source, scheme-source, 'self', or 'none'");
 			}

@@ -65,6 +65,8 @@ public final class SecureRandomUtil {
 
 	/**
 	 * Calls managed SecureRandom method
+	 * @param bound the upper bound (exclusive). Must be positive
+	 * @return the next Integer from the managed SecureRandom instance
 	 *
 	 * @see SecureRandom#nextInt(int)
 	 */

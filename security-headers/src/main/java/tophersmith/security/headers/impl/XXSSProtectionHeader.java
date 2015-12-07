@@ -87,8 +87,8 @@ public class XXSSProtectionHeader extends AbstractHeader {
 	
 	/**
 	 * Add (or replace) report URL. Only for Chrome/Webkit
-	 * @param url 
-	 * @return
+	 * @param url a url to add to this directive
+	 * @return a reference to this object
 	 */
 	public XXSSProtectionHeader addReportURL(String url){
 		this.reportUrl = url;

@@ -96,6 +96,11 @@ public class SecurityHeaders {
 		return headers;
 	}
 	
+	/**
+	 * Construct a list of header names and values for each attached Header
+	 * 
+	 * @return a list of header names and values
+	 */
 	public List<Entry<String,String>> buildHeaders(){
 		List<Entry<String, String>> headers = new ArrayList<Entry<String,String>>();
 		for (int i = 0; i < this.headers.size(); i++) {

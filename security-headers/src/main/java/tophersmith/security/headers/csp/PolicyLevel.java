@@ -44,7 +44,11 @@ import tophersmith.security.headers.csp.directives.impl.StyleSrcDirective;
  *
  */
 public enum PolicyLevel{
-	//Allowed array, deprecated array
+	
+	/**
+	 * CSP 1.0
+	 * <a href="http://www.w3.org/TR/2012/CR-CSP-20121115/">http://www.w3.org/TR/2012/CR-CSP-20121115/</a>
+	 */
 	CSP1(new String[]{ConnectSrcDirective.NAME, 	DefaultSrcDirective.NAME, 	
 					  FontSrcDirective.NAME,		FrameSrcDirective.NAME, 	
 					  ImgSrcDirective.NAME, 		MediaSrcDirective.NAME, 
@@ -53,6 +57,10 @@ public enum PolicyLevel{
 					  StyleSrcDirective.NAME},
 		 new String[]{}), 
 	
+	/**
+	 * CSP 2.0
+	 * <a href="http://www.w3.org/TR/CSP2/">http://www.w3.org/TR/CSP2/</a>
+	 */
 	CSP2(new String[]{BaseUriDirective.NAME, 		ChildSrcDirective.NAME, 	
 					  ConnectSrcDirective.NAME,   	DefaultSrcDirective.NAME, 	
 					  FontSrcDirective.NAME,		FormActionDirective.NAME,

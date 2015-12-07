@@ -16,22 +16,27 @@
 package tophersmith.security.headers.csp.directives.impl;
 
 import tophersmith.security.headers.csp.directives.AbstractSrcDirective;
-import tophersmith.security.headers.csp.directives.SourceValidator;
+import tophersmith.security.headers.util.Validator;
 
 /**
  * From 
- * {@link https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet}
+ * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
+ * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
  * <br/>
  * The img-src directive restricts from where the protected resource can 
  * load images. This directive relies on the CSP default-src list if this 
  * directive is undefined. See 
- * {@link http://www.w3.org/TR/CSP2/#directive-img-src}
+ * <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
+ * http://www.w3.org/TR/CSP2/#directive-base-uri</a>
  * 
  * @author Chris Smith
  *
  */
 public class ImgSrcDirective extends AbstractSrcDirective {
 
+	/**
+	 * The name of the directive
+	 */
 	public static final String NAME = "img-src";
 
 	public ImgSrcDirective() {
@@ -43,7 +48,7 @@ public class ImgSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public ImgSrcDirective addNone() {
-		addDirectiveValue(SourceValidator.SRC_KEY_NONE);
+		addDirectiveValue(Validator.SRC_KEY_NONE);
 		return this;
 	}
 
@@ -52,7 +57,7 @@ public class ImgSrcDirective extends AbstractSrcDirective {
 	 * @return a reference to this object
 	 */
 	public ImgSrcDirective addSelf() {
-		addDirectiveValue(SourceValidator.SRC_KEY_SELF);
+		addDirectiveValue(Validator.SRC_KEY_SELF);
 		return this;
 	}
 
