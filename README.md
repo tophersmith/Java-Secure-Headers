@@ -2,7 +2,7 @@
 #### Author: Chris Smith, 2015
 
 ## Goal
-Provide a set of easy-to-configure security headers that allow dynamic web applications to build validated and properly formatted security headers on the fly.
+Provide a set of easy-to-configure security headers that allow dynamic web applications to build validated and properly formatted security headers procedurally.
 
 ## Design
 ### Supported Headers     
