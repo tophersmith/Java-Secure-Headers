@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import org.junit.Before;
 import org.junit.Test;
 
-import tophersmith.security.headers.SecurityHeaders;
 import tophersmith.security.headers.impl.XFrameOptionsHeader;
 import tophersmith.security.headers.impl.XXSSProtectionHeader;
 
@@ -32,6 +31,7 @@ public class SecurityHeadersTest{
 		return head;
 	}
 	
+
 	@Test
 	public void testSecurityHeadersStandard() {
 		SecurityHeaders head = basicSetup();

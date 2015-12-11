@@ -58,8 +58,24 @@ if(issues != null){
 //output to console
 List<Entry<String, String>> headers = head.buildHeaders();
 for(Entry<String, String> entry : headers){
-	System.out.println(entry.getKey() + ":" + entry.getValue());
+	System.out.println(entry.getKey() + ": " + entry.getValue());
 }
+
+//alternate output to console
+List<String> headerLines = head.buildHeaderLines();
+for(String line : headerLines){
+	System.out.println(line);
+}
+
+/**
+ * Output in console for the above code:
+ * X-Frame-Options: DENY
+ * X-XSS-Protection: 1; mode=block
+ * Content-Security-Policy: script-src 'self' 'unsafe-inline'; default-src 'self' http://foobar.com
+ * X-Frame-Options: DENY
+ * X-XSS-Protection: 1; mode=block
+ * Content-Security-Policy: script-src 'self' 'unsafe-inline'; default-src 'self' http://foobar.com
+ */
 ```
 
 ## Tests

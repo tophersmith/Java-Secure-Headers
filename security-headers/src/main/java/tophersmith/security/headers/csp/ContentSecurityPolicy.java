@@ -164,12 +164,12 @@ public class ContentSecurityPolicy {
 		boolean first = true;
 		for (Entry<String, AbstractCSPDirective> entry  : this.directiveMap.entrySet()) {
 			AbstractCSPDirective directive = entry.getValue();
-			sb.append(directive.buildDirective());
 			if(first){
 				first = false;
 			} else{
 				sb.append("; ");
 			}
+			sb.append(directive.buildDirective());
 		}
 		return sb.toString();
 	}
