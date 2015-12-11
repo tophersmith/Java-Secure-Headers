@@ -22,7 +22,7 @@ import tophersmith.security.headers.util.InvalidHeaderException;
 /**
  * The X-Frame-Options header is used in response headers to configure 
  * which sites may frame this response's resource.
- * This defends against UI Redress attaks such as Clickjacking
+ * This defends against UI Redress attacks such as Clickjacking
  * 
  * @author Chris Smith
  *
