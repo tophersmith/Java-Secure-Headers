@@ -26,7 +26,7 @@ Finally, the ContentSecurityPolicy contains one further builder pattern in the A
 All relevant library data should be exposed in such a way as to allow for further development via class extension or implementation
 
 ### Example Usage
-```
+```java
 SecurityHeaders head = new SecurityHeaders();
 
 //X-FRAME-OPTIONS set to deny framing
