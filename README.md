@@ -26,66 +26,7 @@ Finally, the ContentSecurityPolicy contains one further builder pattern in the A
 All relevant library data should be exposed in such a way as to allow for further development via class extension or implementation
 
 ### Example Usage
-```java
-private List<Entry<String, String>> makeSecurityHeaders(){
-	SecurityHeaders head = new SecurityHeaders();
-
-	//X-FRAME-OPTIONS set to deny framing
-	XFrameOptionsHeader xframe = new XFrameOptionsHeader().setDeny();
-
-	//X-XSS-Protection enabled and set to block
-	XXSSProtectionHeader xss = new XXSSProtectionHeader().enableBlock().enableProtection();
-
-	//CSP built with a default-src and script-src
-	ContentSecurityPolicyHeader csp = new ContentSecurityPolicyHeader(CSPHeaderName.CSP);
-	ContentSecurityPolicy policy = new ContentSecurityPolicy();
-	policy.addDirective(new DefaultSrcDirective().addSelf().addSource("http://foobar.com"));
-	policy.addDirective(new ScriptSrcDirective().addSelf().addUnsafeInline());
-	csp.setPolicy(policy);
-
-	//add all headers
-	head.addHeader(xframe).addHeader(xss).addHeader(csp);
-
-	//(Optional) validate the headers
-	List<String> issues = head.validateAllHeaders();
-
-	//output to stderr
-	if(issues != null){
-		for(String issue : issues){
-			System.err.println(issue);
-		}
-	}
-
-	//output to console
-	List<Entry<String, String>> headers = head.buildHeaders();
-	for(Entry<String, String> entry : headers){
-		System.out.println(entry.getKey() + ": " + entry.getValue());
-	}
-
-	//alternate output to console
-	List<String> headerLines = head.buildHeaderLines();
-	for(String line : headerLines){
-		System.out.println(line);
-	}
-
-	/**
-	 * Output in console for the above code:
-	 * X-Frame-Options: DENY
-	 * X-XSS-Protection: 1; mode=block
-	 * Content-Security-Policy: script-src 'self' 'unsafe-inline'; default-src 'self' http://foobar.com
-	 * X-Frame-Options: DENY
-	 * X-XSS-Protection: 1; mode=block
-	 * Content-Security-Policy: script-src 'self' 'unsafe-inline'; default-src 'self' http://foobar.com
-	 */
-}
-
-public void addHeadersToResponse(HttpServletResponse response){
-	List<Entry<String, String>> headers = makeSecurityHeaders();
-	for(Entry<String, String> entry : headers){
-		response.setHeader(entry.getKey(), entry.getValue());
-	}
-}
-```
+[Examples](./EXAMPLES.md)
 
 ## Tests
 Included is a test suite SecurityHeadersSuite which executes sets of JUnit tests that cover over 97% of instructions in the library (some instructions are missed in defensive code branches).

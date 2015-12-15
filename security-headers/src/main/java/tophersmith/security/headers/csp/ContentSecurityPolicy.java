@@ -80,6 +80,19 @@ public class ContentSecurityPolicy {
 	}
 
 	/**
+	 * Retrieve a CSP Directive by name
+	 * @param directiveName suggested to use the AbstractCSPDirective's NAME value
+	 * @return a directive denoted by the supplied directiveName or null
+	 */
+	public AbstractCSPDirective getDirective(String directiveName){
+		AbstractCSPDirective dir = null;
+		if(directiveName != null && this.directiveMap.containsKey(directiveName)){
+			dir = this.directiveMap.get(directiveName);
+		}
+		return dir;
+	}
+	
+	/**
 	 * Attempts to reduce a policy to its most compressed version. This
 	 * transformation occurs in place, therefore post-compression some data 
 	 * may be lost
