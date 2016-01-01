@@ -2,7 +2,7 @@
 #### Author: Chris Smith, 2015
 
 ## Code Status
-[![Build Status](https://travis-ci.org/tophersmith/Java-Secure-Headers.svg?branch=master)](https://travis-ci.org/tophersmith/Java-Secure-Headers.svg?branch=master)
+[![Build Status](https://travis-ci.org/tophersmith/Java-Secure-Headers.svg?branch=master)](https://travis-ci.org/tophersmith/Java-Secure-Headers)
 
 ## Goal
 Provide a set of easy-to-configure security headers that allow dynamic web applications to build validated and properly formatted security headers procedurally.
