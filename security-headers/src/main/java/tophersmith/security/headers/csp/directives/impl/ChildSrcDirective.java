@@ -22,7 +22,7 @@ import tophersmith.security.headers.util.Validator;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The child-src directive governs the creation of nested browsing contexts 
  * as well as Worker execution contexts. This directive relies on the CSP 
  * default-src list if this directive is undefined.  See 

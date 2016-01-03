@@ -80,7 +80,7 @@ public class SecurityHeaders {
 
 	/**
 	 * Dispatch to each header to have it construct its own complete header line
-	 * <br/>
+	 * <br>
 	 * e.g. Header-Name: HeaderValue(s)
 	 * @return a list of Strings containing the full header line
 	 */

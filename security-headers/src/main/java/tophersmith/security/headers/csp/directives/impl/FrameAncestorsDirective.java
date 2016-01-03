@@ -23,7 +23,7 @@ import tophersmith.security.headers.util.Validator;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The frame-ancestors directive indicates whether the user agent should 
  * allow embedding the resource using a frame, iframe, object, embed or 
  * applet element, or equivalent functionality in non-HTML resources. 

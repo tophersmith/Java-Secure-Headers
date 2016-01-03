@@ -22,7 +22,7 @@ import tophersmith.security.headers.util.Validator;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The default-src directive governs the default src-list of other directives. 
  * These include: 
  * <ul>

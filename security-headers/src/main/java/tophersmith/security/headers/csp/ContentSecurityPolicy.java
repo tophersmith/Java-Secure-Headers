@@ -31,15 +31,15 @@ import tophersmith.security.headers.csp.directives.AbstractCSPDirective;
  * This protects the browser from a wide array of content injection 
  * vulnerabilities. The CSP is a "Defense-in-Depth" strategy component and 
  * should be used alongside other defenses, such as input validation.
- * <br/><br/>
- * Example:<br/>
+ * <br><br>
+ * Example:<br>
  * <code>
- * ContentSecurityPolicy csp = new ContentSecurityPolicy();<br/>
- * DefaultSrcDirective defaultDir = new DefaultSrcDirective().addSelf();<br/>
- * ScriptSrcDirective scriptDir = new ScriptSrcDirective().addSelf().addUnsafeInline().addUnsafeEval();<br/>
- * csp.addDirective(defaultDir).addDirective(scriptDir);<br/>
+ * ContentSecurityPolicy csp = new ContentSecurityPolicy();<br>
+ * DefaultSrcDirective defaultDir = new DefaultSrcDirective().addSelf();<br>
+ * ScriptSrcDirective scriptDir = new ScriptSrcDirective().addSelf().addUnsafeInline().addUnsafeEval();<br>
+ * csp.addDirective(defaultDir).addDirective(scriptDir);<br>
  * csp.build();
- * </code><br/>
+ * </code><br>
  * The build method would return default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'
  * 
  * @author Chris Smith

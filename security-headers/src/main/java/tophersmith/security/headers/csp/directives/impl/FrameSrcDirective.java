@@ -22,9 +22,9 @@ import tophersmith.security.headers.util.Validator;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The frame-src directive restricts from where the protected resource 
- * can embed frames. <br/><b>Note:</b> Deprecated in CSP 2.0. <br/>
+ * can embed frames. <br><b>Note:</b> Deprecated in CSP 2.0. <br>
  * See <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
  * http://www.w3.org/TR/CSP2/#directive-base-uri</a>
  * 

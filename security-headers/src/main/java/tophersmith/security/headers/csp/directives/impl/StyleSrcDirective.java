@@ -22,7 +22,7 @@ import tophersmith.security.headers.util.Validator;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The script-src directive restricts which styles the user may applies to 
  * the protected resource. Additional restrictions against inline and eval.
  * This directive relies on the CSP default-src list if this directive is 

@@ -22,7 +22,7 @@ import tophersmith.security.headers.util.Validator;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The script-src directive restricts which scripts the protected resource 
  * can execute. Additional restrictions against inline scripts, and eval. 
  * Additional directives were added in CSP2 for hash and nonce support. 

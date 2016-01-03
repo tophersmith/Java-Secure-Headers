@@ -22,7 +22,7 @@ import tophersmith.security.headers.util.Validator;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The connect-src directive restricts which URLs the protected resource can 
  * load using script interfaces. (e.g. send() method of an XMLHttpRequest 
  * object). This directive relies on the CSP default-src list if this 

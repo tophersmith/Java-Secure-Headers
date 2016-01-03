@@ -22,7 +22,7 @@ import tophersmith.security.headers.util.Validator;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The form-action directive retricts which URLs can be used as 
  * the action of HTML form elements. See 
  * <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">

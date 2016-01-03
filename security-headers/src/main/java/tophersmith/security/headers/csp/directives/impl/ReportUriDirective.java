@@ -24,7 +24,7 @@ import tophersmith.security.headers.csp.directives.AbstractCSPDirective;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The report-uri directive specifies a URL to which the user agent sends 
  * reports about policy violation. See 
  * <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">

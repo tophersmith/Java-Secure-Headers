@@ -49,7 +49,7 @@ public final class SecureRandomUtil {
 	}
 
 	/**
-	 * After some number of uses of this instance, reseed the value <br/>
+	 * After some number of uses of this instance, reseed the value <br>
 	 * Note: this method is thread-safe-<i>enough</i>. Several threads can 
 	 * call it simultaneously, and more than one may reseed (which is 
 	 * thread-safe). Therefore, the countdown is a good-enough pseudo-lock 

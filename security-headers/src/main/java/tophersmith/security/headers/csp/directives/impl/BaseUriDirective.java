@@ -22,7 +22,7 @@ import tophersmith.security.headers.util.Validator;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The base-uri directive restricts the URLs that can be used to specify the 
  * document base URL. See <a href="http://www.w3.org/TR/CSP2/#directive-base-uri">
  * http://www.w3.org/TR/CSP2/#directive-base-uri</a>

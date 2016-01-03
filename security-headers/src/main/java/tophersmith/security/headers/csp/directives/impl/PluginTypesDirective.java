@@ -22,7 +22,7 @@ import tophersmith.security.headers.csp.directives.AbstractCSPDirective;
  * From 
  * <a href="https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet">
  * https://www.owasp.org/index.php/Content_Security_Policy_Cheat_Sheet</a>}
- * <br/>
+ * <br>
  * The plugin-types directive restricts the set of plugins that can be 
  * invoked by the protected resource by limiting the types of resources 
  * that can be embedded. See 
