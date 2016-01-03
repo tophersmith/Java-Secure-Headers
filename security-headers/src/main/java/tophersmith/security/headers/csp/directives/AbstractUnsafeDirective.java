@@ -16,6 +16,7 @@
 package tophersmith.security.headers.csp.directives;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import tophersmith.security.headers.csp.CSPValidationReport;
@@ -34,10 +35,6 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 
 	private List<String> nonces = null;
 	private List<String> hashes = null;
-
-	//character set is Alpha-Numerics
-	private static final String[] NONCE_CHARSET = 
-			"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
 
 	private static final String NONCE_PREFIX = "nonce";
 	private static final String QUOTE = "'";
@@ -94,7 +91,9 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	 * @return an alphanumeric string of length size 
 	 */
 	public static String generateNonce(int size) {
-		return SecureRandomUtil.generateRandomString(AbstractUnsafeDirective.NONCE_CHARSET, size/4*4);
+		byte[] nonceBytes = new byte[size];
+		SecureRandomUtil.nextBytes(nonceBytes);
+		return Base64.getEncoder().encodeToString(nonceBytes);
 	}
 	
 	

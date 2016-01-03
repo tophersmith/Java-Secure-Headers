@@ -74,6 +74,17 @@ public final class SecureRandomUtil {
 		SecureRandomUtil.instance.checkReseed();
 		return SecureRandomUtil.instance.random.nextInt(bound);
 	}
+	
+	/**
+	 * Calls managed SecureRandom method
+	 * @param bytes the byte array to fill with random bytes
+	 *
+	 * @see SecureRandom#nextBytes(byte[])
+	 */
+	public static void nextBytes(byte[] bytes) {
+		SecureRandomUtil.instance.checkReseed();
+		SecureRandomUtil.instance.random.nextBytes(bytes);;
+	}
 
 	/**
 	 * Generate a randomized String using the supplied parameters
@@ -92,5 +103,4 @@ public final class SecureRandomUtil {
 
 		return sb.toString();
 	}
-
 }

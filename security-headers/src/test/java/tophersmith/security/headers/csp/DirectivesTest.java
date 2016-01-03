@@ -296,7 +296,7 @@ public class DirectivesTest {
 			dir.addSource(src);
 		}
 		for(int i = 0; i < 2; i++){
-			String nonce = StyleSrcDirective.generateNonce(10);
+			String nonce = ScriptSrcDirective.generateNonce(10);
 			String hash = "QUFB";
 			
 			dir.addNonce(nonce);
@@ -317,7 +317,7 @@ public class DirectivesTest {
 		}
 
 		for(int i = 0; i < 2; i++){
-			String nonce = StyleSrcDirective.generateNonce(10);
+			String nonce = ScriptSrcDirective.generateNonce(10);
 			String hash = "QUFB";
 			
 			dir.addNonce(nonce);
