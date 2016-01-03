@@ -12,24 +12,4 @@ env:
     - secure: "VgWG6Ltj0VKvwnZTe2wh30ygmT22SrPZqZn0iXK1bzTuSPgQzt6z8JO9ioiUAN86ydZv0IsoCA0hFoKPEXPXV7c6ye1LZbfwpoDSKcFHvgrf4Mr7r8KK+tDYgv+CMWUehbi7QZ9FryLr4pH1hrlunsvkDVutXA7ShpVNcgTpKpDZki65WTDLOWAlrsAK8ue+b5RSSZY+hftRD5UH3Up7/pkloyhre7Cs1CsG1kfOww8lpsNA/gpoTdrZqfKgNfzt7tiyvZlZgUI4VKcFN+2Tg4nYuliR31s7GDxVOurXgKNkcCQqSQCxNZiCzBk6KQ5UltrDcvxWJkGmxgaGbD0NYtH1WQMlqevoufkrUVlXN8y9WNCRke43ApCBWeBCiqTbo6wgA25au4XCnGfH9uX/bjUGD7BQqW4b46KT2l2++rRjkyS7lu4m0Id5M9yAWDnTqVY18Odjjfs+HxbadHi2YUWqjRpyLsWk9gQRgakxdvAm6QDB81EIST71D+9U/sPqGAXLODlhmbxEu7SEG78+zeSvav6T1lX6nd8AtHihQWmrnW+SmltZ7iNaHOAnyB35vJ/NVlUp5CCWGggp9GslOdVbkuwAAwwFfOdyaVNPSarnrLythfLQuagBZP5mxJ/CYr8jMdNS619m+SQvwlRqRm476kI/jmnD/lj3O3zjKzw="
 
 after_success:
-  - 'if [ "$TRAVIS_REPO_SLUG" == "tophersmith/JavaSecureHeaders" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk7" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-
-  echo -e "Publishing javadoc...\n"
-
-  cp -R build/docs/javadoc $HOME/javadoc-latest
-
-  cd $HOME
-  git config --global user.email "travis@travis-ci.org"
-  git config --global user.name "travis-ci"
-  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/tophersmith/JavaSecureHeaders gh-pages > /dev/null
-
-  cd gh-pages
-  git rm -rf ./javadoc
-  cp -Rf $HOME/javadoc-latest ./javadoc
-  git add -f .
-  git commit -m "Latest javadoc on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
-  git push -fq origin gh-pages > /dev/null
-
-  echo -e "Published Javadoc to gh-pages.\n"
-  
-  fi'
+  - buildscripts/javadocs_publish.sh
