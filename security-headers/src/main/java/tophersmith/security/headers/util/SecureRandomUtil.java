@@ -65,18 +65,6 @@ public final class SecureRandomUtil {
 
 	/**
 	 * Calls managed SecureRandom method
-	 * @param bound the upper bound (exclusive). Must be positive
-	 * @return the next Integer from the managed SecureRandom instance
-	 *
-	 * @see SecureRandom#nextInt(int)
-	 */
-	public static int nextInt(int bound) {
-		SecureRandomUtil.instance.checkReseed();
-		return SecureRandomUtil.instance.random.nextInt(bound);
-	}
-	
-	/**
-	 * Calls managed SecureRandom method
 	 * @param bytes the byte array to fill with random bytes
 	 *
 	 * @see SecureRandom#nextBytes(byte[])
@@ -84,23 +72,5 @@ public final class SecureRandomUtil {
 	public static void nextBytes(byte[] bytes) {
 		SecureRandomUtil.instance.checkReseed();
 		SecureRandomUtil.instance.random.nextBytes(bytes);;
-	}
-
-	/**
-	 * Generate a randomized String using the supplied parameters
-	 * 
-	 * @param options contains the Strings to choose from to generate the final string
-	 * @param size the number of times to choose from options
-	 * @return a string containing <b>size</b> number of <b>options</b> 
-	 */
-	public static String generateRandomString(String[] options, int size) {
-		int opLen = options.length;
-
-		StringBuilder sb = new StringBuilder(size);
-		for (int i = 0; i < size; i++) {
-			sb.append(options[nextInt(opLen)]);
-		}
-
-		return sb.toString();
 	}
 }
