@@ -5,9 +5,12 @@ echo -e "ver: $TRAVIS_JDK_VERSION"
 echo -e "bra: $TRAVIS_BRANCH"
 echo -e "home: $HOME"
 
-if [ "$TRAVIS_REPO_SLUG" == "tophersmith/Java-Secure-Headers" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk7" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-
-  echo -e "Publishing javadoc...\n"
+if [ "$TRAVIS_REPO_SLUG" == "tophersmith/Java-Secure-Headers" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+  echo -e "Creating javadoc"
+  
+  mvn -f security-headers/pom.xml javadoc:javadoc
+  
+  echo -e "Publishing javadoc..."
 
   cp -R security-headers/target/site/apidocs $HOME/javadoc-latest
   echo -e "Copied javadocs"

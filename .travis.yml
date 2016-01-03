@@ -14,5 +14,4 @@ script:
   - mvn -f security-headers/pom.xml test
 
 after_success:
-  - mvn -f security-headers/pom.xml javadoc:javadoc
   - buildscripts/javadocs_publish.sh
