@@ -5,7 +5,7 @@ echo -e "ver: $TRAVIS_JDK_VERSION"
 echo -e "bra: $TRAVIS_BRANCH"
 echo -e "home: $HOME"
 
-if [ "$TRAVIS_REPO_SLUG" == "tophersmith/JavaSecureHeaders" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk7" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+if [ "$TRAVIS_REPO_SLUG" == "tophersmith/Java-Secure-Headers" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk7" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
 
   echo -e "Publishing javadoc...\n"
 
@@ -14,7 +14,7 @@ if [ "$TRAVIS_REPO_SLUG" == "tophersmith/JavaSecureHeaders" ] && [ "$TRAVIS_JDK_
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "travis-ci"
-  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/tophersmith/JavaSecureHeaders gh-pages > /dev/null
+  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/tophersmith/Java-Secure-Headers gh-pages > /dev/null
 
   cd gh-pages
   git rm -rf ./javadoc
