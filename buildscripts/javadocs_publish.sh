@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo -e "repo: $TRAVIS_REPO_SLUG"
+echo -e "ver: $TRAVIS_JDK_VERSION"
+echo -e "bra: $TRAVIS_BRANCH"
+echo -e "home: $HOME"
+
 if [ "$TRAVIS_REPO_SLUG" == "tophersmith/JavaSecureHeaders" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk7" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
 
   echo -e "Publishing javadoc...\n"
