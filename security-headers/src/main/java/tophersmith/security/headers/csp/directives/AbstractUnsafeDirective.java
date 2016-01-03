@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import javax.xml.bind.DatatypeConverter;
+
 import tophersmith.security.headers.csp.CSPValidationReport;
 import tophersmith.security.headers.util.SecureRandomUtil;
 import tophersmith.security.headers.util.Validator;
@@ -93,7 +95,7 @@ public abstract class AbstractUnsafeDirective extends AbstractSrcDirective {
 	public static String generateNonce(int size) {
 		byte[] nonceBytes = new byte[size];
 		SecureRandomUtil.nextBytes(nonceBytes);
-		return Base64.getEncoder().encodeToString(nonceBytes);
+		return DatatypeConverter.printBase64Binary(nonceBytes);
 	}
 	
 	
