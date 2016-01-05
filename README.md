@@ -12,9 +12,9 @@ Provide a set of easy-to-configure security headers that allow dynamic web appli
 
 ## Installation
 ### Standalone
-JDK7: [secure-headers-jdk7.jar](https://demandware-appsec.github.io/Java-Secure-Headers/jar/secure-headers-jdk7.jar)
+JDK7: [secure-headers-jdk7.jar](https://tophersmith.github.io/Java-Secure-Headers/jar/secure-headers-jdk7.jar)
 
-JDK8: [secure-headers-jdk8.jar](https://demandware-appsec.github.io/Java-Secure-Headers/jar/secure-headers-jdk8.jar)
+JDK8: [secure-headers-jdk8.jar](https://tophersmith.github.io/Java-Secure-Headers/jar/secure-headers-jdk8.jar)
 
 ### Maven
 ``` xml
