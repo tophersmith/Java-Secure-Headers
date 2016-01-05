@@ -10,6 +10,20 @@
 ## Goal
 Provide a set of easy-to-configure security headers that allow dynamic web applications to build validated and properly formatted security headers procedurally.
 
+## Installation
+### Standalone
+JDK7: [secure-headers-jdk7.jar](https://demandware-appsec.github.io/Java-Secure-Headers/jar/secure-headers-jdk7.jar)
+
+JDK8: [secure-headers-jdk8.jar](https://demandware-appsec.github.io/Java-Secure-Headers/jar/secure-headers-jdk8.jar)
+
+### Maven
+``` xml
+<dependency>
+  <groupId>TBD</groupId>
+  <artifactId>TBD</artifactId>
+</dependency>
+```
+
 ## Design
 ### Supported Headers     
 
