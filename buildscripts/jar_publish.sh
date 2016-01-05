@@ -9,8 +9,7 @@ if [ "$TRAVIS_REPO_SLUG" == "tophersmith/Java-Secure-Headers" ] && [ "$TRAVIS_PU
   jdkver=$(echo -n $TRAVIS_JDK_VERSION | tail -c 4)
 
   mkdir $HOME/jar-latest/
-  ls security-headers/target/
-  cp security-headers/target/*.jar $HOME/jar-latest/secure-headers.jar
+  cp security-headers/target/*.jar $HOME/jar-latest/
   echo -e "Copied jar"
 
   cd $HOME
@@ -20,7 +19,8 @@ if [ "$TRAVIS_REPO_SLUG" == "tophersmith/Java-Secure-Headers" ] && [ "$TRAVIS_PU
   echo -e "Cloned gh-pages"
 
   cd gh-pages
-  cp $HOME/jar-latest/secure-headers.jar ./jar/secure-headers-$jdkver.jar
+  mkdir ./jar/$jdkver/
+  cp $HOME/jar-latest/*.jar ./jar/$jdkver/
   git add -f .
   git commit -m "Updating jars on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
   git push -fq origin gh-pages > /dev/null
