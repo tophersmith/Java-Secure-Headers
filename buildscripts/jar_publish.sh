@@ -9,6 +9,7 @@ if [ "$TRAVIS_REPO_SLUG" == "tophersmith/Java-Secure-Headers" ] && [ "$TRAVIS_PU
   jdkver=$(echo -n $TRAVIS_JDK_VERSION | tail -c 4)
 
   mkdir $HOME/jar-latest/
+  ls security-headers/target/
   cp security-headers/target/*.jar $HOME/jar-latest/secure-headers.jar
   echo -e "Copied jar"
 
