@@ -9,9 +9,10 @@ env:
 
 before_script:
   - chmod +x buildscripts/javadocs_publish.sh
-
+  - chmod +x buildscripts/jar_publish.sh
 script:
   - mvn -f security-headers/pom.xml test
 
 after_success:
   - buildscripts/javadocs_publish.sh
+  - buildscripts/jar_publish.sh
